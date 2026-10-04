@@ -56,11 +56,10 @@ test('isolation change refuses component surfaces without fallback and preserves
  await page.getByRole('button',{name:'Review fixture main-origin'}).click();await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
 })
 
-test('context replacement aborts an unfinished registry fetch without reviving its host',async({page})=>{
+for(const delayedRequest of [1,2])test(`context replacement aborts unfinished registry fetch ${delayedRequest} without reviving its host`,async({page})=>{
  let calls=0,entered!:()=>void;const waiting=new Promise<void>(resolve=>{entered=resolve});let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve})
- await page.route('**/plugins/registry',async route=>{if(++calls===2){entered();await gate};try{await route.continue()}catch{/* the replaced context cancels this request */}})
- await page.goto('/');await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
- await page.getByRole('button',{name:'Switch context'}).click();await waiting
+ await page.route('**/plugins/registry',async route=>{if(++calls===delayedRequest){entered();await gate};try{await route.continue()}catch{/* the replaced context cancels this request */}})
+ await page.goto('/');if(delayedRequest===2){await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible();await page.getByRole('button',{name:'Switch context'}).click()}await waiting
  await page.getByRole('button',{name:'Switch context'}).click();release()
- await expect(page.getByText('Embedded application view: context-3')).toBeVisible();await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible();await expect(page.getByRole('region',{name:'Plugin panels'})).toContainText('Detail context: context-3');await expect(page.getByText('Detail context: context-2')).toHaveCount(0)
+ const context=`context-${delayedRequest+1}`;await expect(page.getByText(`Embedded application view: ${context}`)).toBeVisible();await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible();await expect(page.getByRole('region',{name:'Plugin panels'})).toContainText(`Detail context: ${context}`);await expect(page.getByText('Plugin registry unavailable')).toHaveCount(0)
 })
