@@ -23,11 +23,12 @@ async function response(extra:RegistryContribution[]=[]):Promise<PluginRegistryR
 async function fixture(options:Partial<Parameters<typeof createFixtureActions>[0]>={}){
  const liveScope=store<HostScope|undefined>(scope),invocation=store<Readonly<Record<string,unknown>>>({fixture:true}),navigation=store('overview')
  const actions=createFixtureActions({scope:liveScope,invocation,routes:['overview','detail'],modalRegions:['modal'],commands:{'tools/run':{validate:intent=>Object.keys(intent.arguments).length===0,outcome:'success'}},authorize:context=>context.invocation.fixture===true,navigate:intent=>navigation.set(intent.route),...options})
- const app=createPresentationComposition({scope,registryOptions:{kinds,regions,stylesheets:false,fetchBundle:async()=>bytes,importModule:async()=>({Widget:()=>createElement('p',null,'fixture')})},catalog,routes:[{id:'overview',label:'Overview',path:'/',region:'canvas'},{id:'detail',label:'Detail',path:'/detail',region:'modal'}],storage:memoryLayoutStorage(),actions:actions.adapter,isolation:store<AppIsolationSnapshot>({appId:scope.appId,effectiveMode:'main-origin',revision:'reviewed'}),renderContext:store<Readonly<Record<string,unknown>>>({})})
+ const isolation=store<AppIsolationSnapshot>({appId:scope.appId,effectiveMode:'main-origin',revision:'reviewed'})
+ const app=createPresentationComposition({scope,registryOptions:{kinds,regions,stylesheets:false,fetchBundle:async()=>bytes,importModule:async()=>({Widget:()=>createElement('p',null,'fixture')})},catalog,routes:[{id:'overview',label:'Overview',path:'/',region:'canvas'},{id:'detail',label:'Detail',path:'/detail',region:'modal'}],storage:memoryLayoutStorage(),actions:actions.adapter,isolation,renderContext:store<Readonly<Record<string,unknown>>>({})})
  actions.observe(app.runtime)
  const input=await response();for(const plugin of Object.values(input.plugins))plugin.bundle_version=await bundleDigest(bytes)
  await app.runtime.sync(input)
- return {app,actions,liveScope,invocation,navigation,input,source:(key:string)=>app.runtime.getSnapshot().views.find(view=>view.ref.owner==='ops'&&view.ref.key===key)!,async dispose(){actions.dispose();await app.dispose()}}
+ return {app,actions,isolation,liveScope,invocation,navigation,input,source:(key:string)=>app.runtime.getSnapshot().views.find(view=>view.ref.owner==='ops'&&view.ref.key===key)!,async dispose(){actions.dispose();await app.dispose()}}
 }
 describe('controlled composition',()=>{
  it('keeps route policy local and scopes shared layout order, visibility and selection',async()=>{
@@ -36,6 +37,7 @@ describe('controlled composition',()=>{
   expect(f.app.select('canvas').map(view=>view.ref.key)).toEqual(['second']);expect(layout.getSnapshot().selected).toBe(available[1].id)
   await f.app.registry.unload('ops');expect(f.app.select('toolbar')).toEqual([]);expect(f.app.select('canvas').map(view=>view.ref.owner)).toEqual(['stable']);await f.dispose()
  })
+ it('direct selectors fence stale component views on isolation changes',async()=>{const f=await fixture();const previous=f.app.select('canvas');expect(previous).toHaveLength(2);f.isolation.set({appId:scope.appId,effectiveMode:'sandboxed-frame',revision:'isolate'});expect(f.app.select('canvas')).toEqual([]);expect(previous.every(view=>!f.app.runtime.isCurrent(view))).toBe(true);f.isolation.set({appId:scope.appId,effectiveMode:'main-origin',revision:'reviewed-again'});expect(f.app.select('canvas')).toHaveLength(2);await f.dispose()})
  it.each(['//external','/a/../b','/a\\b','/a b','/a?b','/a%2fb'])('refuses ambiguous host path %s',async path=>{
   expect(()=>createPresentationComposition({scope,registryOptions:{kinds,regions,stylesheets:false},catalog,routes:[{id:'bad',label:'Bad',path,region:'canvas'}],storage:memoryLayoutStorage(),isolation:store<AppIsolationSnapshot>({appId:scope.appId,effectiveMode:'main-origin',revision:'fixture'}),renderContext:store({})})).toThrow('Invalid host route policy')
  })
@@ -68,6 +70,7 @@ describe('shared typed gateway + fixture producers',()=>{
   const f=await fixture();const old=f.actions.observe(f.app.runtime);f.actions.observe(f.app.runtime);old()
   await dispatchPluginAction(intents.modal,{host:f.app.runtime,contribution:f.source('modal').ref});await f.app.registry.unload('tools');expect(f.actions.modal.getSnapshot()).toBeUndefined();await f.dispose()
  })
+ it.each(['refused','error'] as const)('records fixture %s outcome without business execution',async outcome=>{const f=await fixture({commands:{'tools/run':{validate:()=>true,outcome}}});const result=await dispatchPluginAction(intents.simulate,{host:f.app.runtime,contribution:f.source('simulate').ref});expect(result.status).toBe('refused');expect(f.actions.receipts.getSnapshot()[0]).toMatchObject({status:'simulated',outcome});await f.dispose()})
  it('records only labelled simulations and refuses undeclared actions/arguments',async()=>{
   const f=await fixture();const ref=f.source('simulate').ref
   expect(await dispatchPluginAction(intents.simulate,{host:f.app.runtime,contribution:ref})).toEqual({status:'success'});expect(f.actions.receipts.getSnapshot()[0]).toMatchObject({status:'simulated',outcome:'success',command:'tools/run'})

@@ -22,3 +22,45 @@ test('isolated consumer renders real verified plugin widget/panel with shared Re
  const raw=await page.locator('script[type="importmap"]').textContent();expect(JSON.parse(raw!).imports.react).toContain('/proof/');expect(JSON.parse(raw!).imports['@chimera/ui']).toContain('/proof/')
  expect(errors).toEqual([])
 })
+
+test('host routes, shared layout and failures preserve unrelated state',async({page})=>{
+ await page.goto('/');await page.getByRole('button',{name:'Stable local count 0'}).click()
+ await expect(page.getByRole('alert')).toContainText('Contribution render unavailable')
+ await expect(page.getByRole('region',{name:'Diagnostics'})).toContainText('reserved');await expect(page.getByRole('region',{name:'Diagnostics'})).toContainText('unsupported-kind');await expect(page.getByText('Untrusted reserved label')).toHaveCount(0);await expect(page.getByText('Untrusted future label')).toHaveCount(0)
+ await page.getByRole('button',{name:'Stable first',exact:true}).click();await expect(page.locator('[data-widget]').first()).toHaveAttribute('data-widget','stable');await expect(page.getByRole('button',{name:'Stable local count 1'})).toBeVisible()
+ await page.getByRole('button',{name:'Hide fixture summary'}).click();await expect(page.getByRole('button',{name:/Fixture provider:/})).toHaveCount(0)
+ await page.getByRole('button',{name:'Show fixture summary'}).click();await expect(page.getByRole('button',{name:'Fixture provider: unavailable; local count 0'})).toBeVisible()
+ await page.getByRole('button',{name:'Plugin details',exact:true}).click();await expect(page.getByText('Current route: detail')).toBeVisible();await expect(page.getByRole('region',{name:'Plugin page'}).getByText('Detail context: context-a')).toBeVisible()
+ await page.getByRole('button',{name:'Try failing import'}).click();await expect(page.getByRole('status',{name:'Import attempt'})).toContainText('activation-failed')
+ await expect(page.getByRole('button',{name:'Stable local count 1'})).toBeVisible();await expect(page.getByRole('region',{name:'Plugin page'}).getByText('Detail context: context-a')).toBeVisible();await expect(page.getByText('Embedded application view: context-a')).toBeVisible();await page.screenshot({path:'../.scratch/routing-consumer.png',fullPage:true})
+})
+test('controlled modal closes on Escape and target revocation',async({page})=>{
+ await page.goto('/');await page.getByRole('button',{name:'Open fixture modal',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('Local fixture modal: context-a');await page.screenshot({path:'../.scratch/routing-modal.png'})
+ await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0)
+ await page.getByRole('button',{name:'Open fixture modal',exact:true}).click();await page.getByRole('button',{name:'Unload modal target',includeHidden:true}).evaluate(element=>(element as HTMLButtonElement).click())
+ await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
+})
+test('delayed producer cannot commit after source unload or context replacement',async({page})=>{
+ await page.goto('/');await page.getByRole('button',{name:'Delayed fixture simulation',exact:true}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).toContainText('pending')
+ await page.getByRole('button',{name:'Unload fixture owner'}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).toContainText('cancelled')
+ await page.getByRole('button',{name:'Complete fixture producer',exact:true}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).not.toContainText('simulated')
+ await page.getByRole('button',{name:'Switch context'}).click();await expect(page.getByText('Embedded application view: context-2')).toBeVisible()
+ await page.getByRole('button',{name:'Delayed fixture simulation',exact:true}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).toContainText('pending')
+ await page.getByRole('button',{name:'Switch context'}).click();await expect(page.getByText('Embedded application view: context-3')).toBeVisible()
+ await page.getByRole('button',{name:'Complete previous fixture producer'}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).toBeEmpty();await expect(page.getByRole('region',{name:'Plugin panels'})).toContainText('Detail context: context-3');await expect(page.getByText('Current route: overview')).toBeVisible()
+ await page.getByRole('button',{name:'Fixture simulation',exact:true}).click();await page.getByRole('button',{name:'Complete fixture producer',exact:true}).click();await expect(page.getByRole('region',{name:'Simulation receipts'})).toContainText('simulated success')
+})
+test('isolation change refuses component surfaces without fallback and preserves embedded view',async({page})=>{
+ await page.goto('/');await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
+ await page.getByRole('button',{name:'Require sandbox isolation'}).click();await expect(page.getByRole('button',{name:/local count/})).toHaveCount(0);await expect(page.getByRole('region',{name:'Plugin panels'})).toBeEmpty();await expect(page.getByText('Embedded application view: context-a')).toBeVisible()
+ await page.getByRole('button',{name:'Review fixture main-origin'}).click();await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
+})
+
+test('context replacement aborts an unfinished registry fetch without reviving its host',async({page})=>{
+ let calls=0,entered!:()=>void;const waiting=new Promise<void>(resolve=>{entered=resolve});let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve})
+ await page.route('**/plugins/registry',async route=>{if(++calls===2){entered();await gate};try{await route.continue()}catch{/* the replaced context cancels this request */}})
+ await page.goto('/');await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible()
+ await page.getByRole('button',{name:'Switch context'}).click();await waiting
+ await page.getByRole('button',{name:'Switch context'}).click();release()
+ await expect(page.getByText('Embedded application view: context-3')).toBeVisible();await expect(page.getByRole('button',{name:'Stable local count 0'})).toBeVisible();await expect(page.getByRole('region',{name:'Plugin panels'})).toContainText('Detail context: context-3');await expect(page.getByText('Detail context: context-2')).toHaveCount(0)
+})
