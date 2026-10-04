@@ -2,7 +2,7 @@
 
 Public repository: https://github.com/hollis-labs/chimera (MIT).
 
-Compatible host API first pushed in 5e6523f; protocol-2 lifecycle/registry in 56ddc2d; typed frontend/isolated consumer in e8327a9; runtime/source-scan/admin matrix in d69620d. All four public CI runs passed. Current proof adds an exact spacing-token check for the Go-authored plugin fixture source.
+Compatible host API first pushed in 5e6523f; protocol-2 lifecycle/registry in 56ddc2d; typed frontend/isolated consumer in e8327a9; runtime/source-scan/admin matrix in d69620d. Public checks for implementation commits passed. Current proof includes an exact spacing-token check for the Go-authored plugin fixture source.
 
 Validation:
 
@@ -20,6 +20,8 @@ Validation:
 | 0107 | Partial doing: typed gateway/navigation/refusal/stale lease checks; fixture modal and late-outcome matrix remain |
 | 0108 | Done: actual controlled read-only admin settings/provenance/status/diagnostics and unavailable states |
 | 0109 | Backlog: local Folio wiring artifact only; no upstream preset or materialization/render-compile adoption claimed |
-| 0110 | Awaiting final Parallax corrected CI; isolated second consumer proof passes |
+| 0110 | Done: corrected Parallax shared-loader/plugin browser CI and isolated fake control-plane consumer proof pass; actual Tachyon adoption remains outside scope |
 
 No managed service, provider, shared library checkout, Tachyon or Folio source was modified. No npm publication or deployment occurred. Main-origin is an explicit reviewed offline demo choice. Tachyon's product-specific serial cancellation/retirement/restart policies remain consumer-owned and have not migrated.
+
+Two-consumer evidence: Parallax commit `52f21aa41d6ec6a406d6de88e43bc233c58f93ec`, [seven passing browser checks](https://github.com/hollis-labs/parallax/actions/runs/37233861893); isolated Chimera consumer commit `30ff1863081300f3eb44c568646aa20a172dcbc5`, [Go/frontend/production+development browser checks](https://github.com/hollis-labs/chimera/actions/runs/37233871187). Parallax consumes a pushed Go pseudo-version. These checks establish embedded UI and real admitted widget/panel reuse, owner unload and runtime sharing; they do not assert actual Tachyon integration.
