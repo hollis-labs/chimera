@@ -1,2 +1,6 @@
 github.com/hollis-labs/go-webui v0.2.0 h1:1dyG97XZlxKxu0UL3gSkMh8u6IHvKwSS63OYbfKamFE=
 github.com/hollis-labs/go-webui v0.2.0/go.mod h1:m3/AQC9IFCMR51IqsPWu+VY4NN6NjkD/I9zedQbQ0B8=
+github.com/hollis-labs/plugin-host v0.1.3-0.20261004183918-98a79bdee1c4 h1:nnyjU+v4Z9rstwhuHeJX66OTDUpU3M5+b281ustqbmU=
+github.com/hollis-labs/plugin-host v0.1.3-0.20261004183918-98a79bdee1c4/go.mod h1:WqpZ1kpCpKTYHLpRzCZxNxnNq96XrqyHC7NPRwOOWLw=
+github.com/hollis-labs/plugin-sdk v0.6.2-0.20261004032349-e4d8eef24b04 h1:DfQhyH1h2siwlKgjtn3xfIgvziC5JKHqqD3esrXbpkY=
+github.com/hollis-labs/plugin-sdk v0.6.2-0.20261004032349-e4d8eef24b04/go.mod h1:GW8/S59GT15wKNQu62XvGArq7yLsceNDEa5TA3wFud0=
