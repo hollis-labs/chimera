@@ -5,3 +5,4 @@ export {ReadOnlyAdmin} from './admin.js'
 export type {ReadOnlyAdminProps} from './admin.js'
 
 export {leasedStylesheets} from './stylesheets.js'
+export {readOnlyAdminFixture} from './admin-fixture.js'

@@ -23,3 +23,7 @@ GOWORK=off go run ./examples/fake-controlplane -addr 127.0.0.1:18443
 Visit the printed address. API provider records, widget/panel and local counter are fake fixtures. The consumer neither contacts Tachyon nor imports its provider implementation. No managed service or source was changed.
 
 Registry-v2 stylesheet sink keys include an opaque host-epoch/owner/generation tuple. The bridge treats the key as opaque and asks host policy to map the declared URL to a reviewed owner/generation; it does not confuse the key with a plugin owner ID. The example allowlists its exact fixture stylesheet URL.
+
+The maintained proof now also provisions the app-approved `@chimera/ui` Button export from design-components. Both production root and Vite development `/proof/` use the same native importmap contract. Browser tests exercise real React hooks through that Button, assert mapped React/design runtime URLs, verify Tailwind plugin source scanning yields nonzero padding, and remove owner-generation styles without touching host theme CSS. The example imports Tailwind v4, theme CSS once, design-components/source.css and plugin-host-ui/source.css, plus its exact Go-authored fixture plugin source.
+
+`readOnlyAdminFixture(contextKey, nowMs)` supplies typed kit-owned projections for desired settings/provenance, runtime health and diagnostics. Tests cover all three sections, stale observations, unavailable resources, unsupported admin contract and mismatched principal context. No writer or setup callback is exposed.

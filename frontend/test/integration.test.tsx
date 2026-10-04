@@ -57,3 +57,17 @@ it('dispatches through the shared typed gateway and fences stale contribution au
  await app.registry.unload('fixture','g1')
  expect(await dispatchPluginAction(intent,{host:app.runtime,contribution:captured.ref})).toEqual({status:'refused',reason:'stale-owner'});expect(navigation).toEqual(['activity']);await app.dispose()
 })
+
+it('projects read-only provenance, status and diagnostics with stale/unsupported honesty',async()=>{
+ const {readOnlyAdminFixture}=await import('../src/admin-fixture.js')
+ const now=Date.parse('2026-10-04T20:00:00Z')
+ const props=readOnlyAdminFixture('principal-a',now)
+ const render=(page:'settings'|'status'|'diagnostics',input=props)=>renderToStaticMarkup(createElement(ReadOnlyAdmin,{...input,selection:{page,groupId:page==='settings'?'appearance':undefined}}))
+ const settings=render('settings');expect(settings).toContain('Desired appearance');expect(settings).toContain('Demo config');expect(settings).not.toContain('Save')
+ expect(render('status')).toContain('degraded');expect(render('diagnostics')).toContain('fixture')
+ expect(render('status',readOnlyAdminFixture('principal-a',now+5000))).toContain('Stale')
+ const unsupported={...props,discovery:{...props.discovery,manifest:{...props.discovery.manifest!,contract_version:99}}}
+ expect(render('status',unsupported)).toContain('Unsupported admin contract')
+ const missing={...props,observations:{}};expect(render('status',missing)).toContain('Unavailable')
+ expect(render('settings',{...props,contextKey:'principal-b'})).not.toContain('Demo config')
+})

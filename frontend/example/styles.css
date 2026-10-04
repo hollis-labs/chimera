@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@import '@hollis-labs/design-tokens/design-tokens.css';
+@import '@hollis-labs/design-components/source.css';
+@import '@hollis-labs/plugin-host-ui/source.css';
+@source './*.tsx';
+/* Exact owned fixture plugin sources; generated binaries/assets are excluded. */
+@source '../../examples/fake-controlplane/main.go';
