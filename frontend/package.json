@@ -1,0 +1,32 @@
+{
+  "name": "chimera-presentation-adapters",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "build:example": "vite build --config example/vite.config.ts",
+    "test:browser": "playwright test"
+  },
+  "dependencies": {
+    "@hollis-labs/plugin-host-ui": "file:../third_party/hollis-labs-plugin-host-ui-0.1.0.tgz",
+    "@hollis-labs/plugin-registry": "0.2.0",
+    "@hollis-labs/kit-admin": "0.1.0",
+    "@hollis-labs/kit-settings": "0.2.0",
+    "@hollis-labs/kit-observe": "0.1.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "es-module-lexer": "1.7.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/node": "26.6.4",
+    "vitest": "4.1.11",
+    "vite": "7.3.6",
+    "@playwright/test": "1.63.0"
+  }
+}

@@ -2,3 +2,7 @@
 node_modules/
 dist/
 *.tgz
+!third_party/*.tgz
+!examples/fake-controlplane/dist/
+examples/fake-controlplane/dist/*
+!examples/fake-controlplane/dist/.gitkeep

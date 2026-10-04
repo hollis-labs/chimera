@@ -1,0 +1,15 @@
+import {test,expect} from '@playwright/test'
+test('isolated consumer renders real verified plugin widget/panel with shared React and unloads',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message))
+ await page.goto('/')
+ await expect(page.getByRole('heading',{name:'Isolated fake control plane'})).toBeVisible()
+ const widget=page.getByRole('button',{name:'Fixture provider: unavailable; local count 0'})
+ await expect(widget).toBeVisible();await expect(page.locator('link[href$="/plugins/fake-ops/g1/style.css"]')).toHaveCount(1);const hostStyles=await page.locator('link[href*="/assets/"]').count();await widget.click()
+ await expect(page.getByRole('button',{name:'Fixture provider: unavailable; local count 1'})).toBeVisible()
+ await expect(page.getByText('Owner: application; no live provider connected')).toBeVisible()
+ const map=await page.locator('script[type="importmap"]').textContent();expect(JSON.parse(map!).imports.react).toContain('/assets/')
+ await page.getByRole('button',{name:'Unload fixture owner'}).click()
+ await expect(page.getByText('Owner: application; no live provider connected')).toHaveCount(0)
+ await expect(page.getByRole('button',{name:/Fixture provider:/})).toHaveCount(0)
+ await expect(page.locator('link[href$="/plugins/fake-ops/g1/style.css"]')).toHaveCount(0);expect(await page.locator('link[href*="/assets/"]').count()).toBe(hostStyles);expect(errors).toEqual([])
+})
