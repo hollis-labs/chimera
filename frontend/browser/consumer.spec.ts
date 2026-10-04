@@ -16,7 +16,7 @@ test('isolated consumer renders real verified plugin widget/panel with shared Re
 
  test('development subpath provisions the same approved runtime and plugin hooks',async({page})=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message))
- await page.goto('http://127.0.0.1:18444/proof/')
+ await page.goto('http://127.0.0.1:18544/proof/')
  const widget=page.getByRole('button',{name:'Fixture provider: unavailable; local count 0'});await expect(widget).toBeVisible();await widget.click()
  await expect(page.getByRole('button',{name:'Fixture provider: unavailable; local count 1'})).toBeVisible()
  const raw=await page.locator('script[type="importmap"]').textContent();expect(JSON.parse(raw!).imports.react).toContain('/proof/');expect(JSON.parse(raw!).imports['@chimera/ui']).toContain('/proof/')

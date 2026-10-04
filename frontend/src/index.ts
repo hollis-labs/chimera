@@ -6,3 +6,7 @@ export type {ReadOnlyAdminProps} from './admin.js'
 
 export {leasedStylesheets} from './stylesheets.js'
 export {readOnlyAdminFixture} from './admin-fixture.js'
+export {createPresentationComposition,memoryLayoutStorage} from './composition.js'
+export type {CompositionOptions,PresentationRoute} from './composition.js'
+export {createFixtureActions} from './fixture-actions.js'
+export type {FixtureActionsOptions,FixtureModal,SimulationReceipt} from './fixture-actions.js'
