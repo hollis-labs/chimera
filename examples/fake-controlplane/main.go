@@ -22,7 +22,7 @@ import (
 var embedded embed.FS
 
 func demoPlugins() (*plugins.Delivery, error) {
-	bytes := []byte(`import {createElement,useState} from "react";import {Button} from "@chimera/ui";export function Summary(){const [count,setCount]=useState(0);return createElement(Button,{className:"p-3 bg-surface-raised text-fg",onClick:()=>setCount(count+1)},"Fixture provider: unavailable; local count "+count)}export function Detail(){return createElement("p",null,"Owner: application; no live provider connected")}`)
+	bytes := []byte(`import {createElement,useState} from "react";import {Button} from "@chimera/ui";export function Summary(){const [count,setCount]=useState(0);return createElement(Button,{className:"p-7 bg-surface-raised text-fg",onClick:()=>setCount(count+1)},"Fixture provider: unavailable; local count "+count)}export function Detail(){return createElement("p",null,"Owner: application; no live provider connected")}`)
 	r := registry.NewResponse("isolated-fake", 1)
 	r.Plugins["fake-ops"] = registry.Plugin{OwnerGeneration: "g1", BundleURL: "/plugins/fake-ops/g1/bundle.js", BundleVersion: registry.BundleDigest(bytes), StylesheetURL: "/plugins/fake-ops/g1/style.css", Runtime: []registry.Runtime{{Name: "react", Min: "19.3.0", Max: "19.3.0"}}}
 	for _, entry := range []struct{ kind, region, key, export, label string }{{"widget", "operations.summary", "summary", "Summary", "Fixture summary"}, {"panel", "operations.detail", "detail", "Detail", "Fixture detail"}} {
