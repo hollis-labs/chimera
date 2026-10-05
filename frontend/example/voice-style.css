@@ -1,0 +1,9 @@
+@reference './styles.css';
+@import '@hollis-labs/kit-voice/source.css';
+.voice-layout { @apply grid grid-cols-1 lg:grid-cols-2 items-start gap-4; }
+.voice-layout section { @apply min-w-0 space-y-3; }
+nav[aria-label="Voice fixture controls"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
+/* App presentation overrides the candidate's dimmed future-word treatment. */
+.voice-layout [data-slot="transcription-segment"] { @apply text-fg-secondary; }
+.voice-layout [data-slot="transcription-segment"][data-active="true"] { @apply text-fg font-semibold underline decoration-primary; }
+.voice-layout button[data-slot="transcription-segment"]:focus-visible { @apply outline-2 outline-primary outline-offset-2; }

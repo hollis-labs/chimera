@@ -22,3 +22,5 @@ nav[aria-label="Observation scenarios"] > button, nav[aria-label="Observation co
 /* Candidate utilities are scanned eagerly; workflow structural CSS remains lazy. */
 @source "../node_modules/@hollis-labs/kit-code/dist/**/*.js";
 @source "../node_modules/@hollis-labs/kit-workflow/dist/**/*.js";
+
+@source "../node_modules/@hollis-labs/kit-voice/dist/**/*.js";

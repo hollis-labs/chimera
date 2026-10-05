@@ -14,3 +14,7 @@ SHA256 kit-code: `4a6ae51c227993c385063451b0ce3d48805b3b5d2b816f06614f5f1656dfd8
 SHA256 kit-workflow: `0989b3617dbedc4d32071462b130c490a8cfa309be4c6a8308628ec665fcf8e9`.
 
 npm lookups returned E404 on 2026-10-05. These artifacts do not assert publication or a release.
+
+## Voice candidate
+
+`hollis-labs-kit-voice-0.0.0.tgz` is a private unpublished **MIT AND Apache-2.0** candidate copied byte-for-byte from Parallax's reviewed artifact. Source commit remains `dbcf4fa7f5bcfe83686d227b39ddf9426cea4fe5`; `kit-voice-provenance.json` records complete source hashes and the isolated TypeScript6.0.2/Vite declaration/build adaptation. Runtime source, CSS and package metadata are unchanged. Complete mixed license terms remain in the archive and public example license assets. SHA256: `e70d3086775f337c3badc95c40e41d1300d826d62f0edb083952e250d1dd827a`. npm lookup returned E404 on 2026-10-05; no publication is claimed.

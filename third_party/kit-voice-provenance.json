@@ -1,0 +1,27 @@
+{
+  "package": "@hollis-labs/kit-voice",
+  "version": "0.0.0",
+  "classification": "private unpublished reviewed candidate",
+  "sourceRepository": "https://github.com/hollis-labs/design-kit",
+  "sourceCommit": "dbcf4fa7f5bcfe83686d227b39ddf9426cea4fe5",
+  "license": "MIT AND Apache-2.0",
+  "sourceFilesSha256": {
+    "src/__tests__/audio-player.test.tsx": "0ee44d02969cebdf6559b230e73b2cb3494525a8fed5d83e329ab09c3c2ec85f",
+    "src/__tests__/fakes.ts": "7453217bb734fe587984e5b4d5a5503f606971b1ba0b45068120ce170e223ede",
+    "src/__tests__/mic-selector.test.tsx": "1eeb697ac6a18cc00f18fbac36ca1f21b54e3c42d9e6676f5347da62b60db4c2",
+    "src/__tests__/speech-input.test.tsx": "a6ba9097521d70927a9233ea7d7fb8be268a9135d1c57f196780ab2478c74cac",
+    "src/__tests__/transcription.test.tsx": "8d31459e0652424b0ee31da9211ad4e3db06ce718a194299e3ff97c818cccde3",
+    "src/__tests__/voice-selector.test.tsx": "557ceb18e3d47e63157ae7ba939a26d03a4bf0f41ca3225e0ad1acceae118e26",
+    "src/audio-player/index.tsx": "c3ff42b09a75b38c960422b662dd4238e4aae74eb2bb9492227ce9e867bc1bd7",
+    "src/index.ts": "66e0f8a525a76f3f7c011987796a742ce214daeea91752e0b4a24ea182361d45",
+    "src/mic-selector.tsx": "6f9921d84be18d9bc88a23a70f3ace0d6008cc82cdc9a999ba640b8ce5c333b4",
+    "src/speech-input.tsx": "fb02037846a71fcebe0cc02ba5d01d7524e8031078184b0c684ee406f6e24196",
+    "src/styles/source.css": "31c4e28d0edd8f47c8108a5ac098091d833d968b50f1279619ae12fe693ed18f",
+    "src/transcription.tsx": "d12d4be0c4a099ed74bfed28564b56951f51f27eccecb0a81702be7bf7f9256b",
+    "src/use-audio-devices.ts": "43b5b4de4b347d395a4e855c631ee861adb395569f26a0d9b8957923ed6ae1af",
+    "src/voice-selector-context.ts": "c6c6d4b4ce9f5e6d058c344159c0a200a853b9b502ce1b52dfb9431934d5fb15",
+    "src/voice-selector.tsx": "5d7884df560c4f8bffb6c966648e40aac7c1392d6e8614d8d7974cf545b2467b"
+  },
+  "archiveSha256": "e70d3086775f337c3badc95c40e41d1300d826d62f0edb083952e250d1dd827a",
+  "build": "Repo-local unchanged runtime source/package metadata/CSS/LICENSE. TS6.0.2 standalone ESNext/Bundler declarations (committed speech event types absent from TS5.9 lib.dom) and Vite7.3.6 preserveModules; all declared dependencies and peers external. Consumer retains TS5.9.3 negative public-type proof. Compatible current published primitives0.4.0 and media-chrome4.19.3. No upstream write/build/npm publication."
+}

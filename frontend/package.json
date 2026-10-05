@@ -17,11 +17,13 @@
     "@hollis-labs/kit-dashboard": "0.4.0",
     "@hollis-labs/kit-observe": "0.1.1",
     "@hollis-labs/kit-settings": "0.2.0",
+    "@hollis-labs/kit-voice": "file:../third_party/hollis-labs-kit-voice-0.0.0.tgz",
     "@hollis-labs/kit-workflow": "file:../third_party/hollis-labs-kit-workflow-0.0.0.tgz",
     "@hollis-labs/plugin-host-ui": "file:../third_party/hollis-labs-plugin-host-ui-0.1.0.tgz",
     "@hollis-labs/plugin-registry": "0.2.0",
     "@xyflow/react": "12.10.1",
     "es-module-lexer": "1.7.0",
+    "media-chrome": "4.19.3",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

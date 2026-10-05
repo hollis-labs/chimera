@@ -1,0 +1,24 @@
+import { it, expect } from 'vitest';
+import { build } from 'vite';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import type { VoiceSelectorProps, TranscriptionProps, SpeechInputProps } from '@hollis-labs/kit-voice';
+import type { AudioPlayerElementProps } from '@hollis-labs/kit-voice/audio-player';
+type Assert<T extends true> = T;
+type IsAny<T> = 0 extends (1 & T) ? true : false;
+type VoiceTyped = Assert<IsAny<VoiceSelectorProps> extends false ? true : false>;
+type TranscriptTyped = Assert<IsAny<TranscriptionProps> extends false ? true : false>;
+type SpeechTyped = Assert<IsAny<SpeechInputProps> extends false ? true : false>;
+type AudioTyped = Assert<IsAny<AudioPlayerElementProps> extends false ? true : false>;
+it('actual voice root module graph excludes optional media-chrome', async () => {
+    const scratch = fileURLToPath(new URL('../../.scratch/voice-core/', import.meta.url));
+    await mkdir(scratch, { recursive: true });
+    const path = `${scratch}root.ts`;
+    await writeFile(path, `export * from ${JSON.stringify(fileURLToPath(import.meta.resolve('@hollis-labs/kit-voice')))}\n`);
+    const parsed: string[] = [];
+    await build({ configFile: false, root: fileURLToPath(new URL('..', import.meta.url)), logLevel: 'silent', plugins: [{ name: 'record-voice-core', moduleParsed(info) { parsed.push(info.id); } }], build: { write: false, minify: false, rollupOptions: { input: path, preserveEntrySignatures: 'strict', external: ['react', 'react/jsx-runtime', 'lucide-react', '@hollis-labs/design-components'], output: { format: 'es' } } } });
+    expect(parsed.some(path => path.includes('/kit-voice/'))).toBe(true);
+    expect(parsed.some(path => path.includes('/media-chrome/'))).toBe(false);
+    await writeFile(`${scratch}modules.json`, JSON.stringify(parsed, null, 2));
+}, 10000);
+it('voice candidate distributes exact complete mixed license', async () => { const source = await readFile(fileURLToPath(new URL('../node_modules/@hollis-labs/kit-voice/LICENSE', import.meta.url)), 'utf8'); const asset = await readFile(fileURLToPath(new URL('../example/public/licenses/kit-voice.LICENSE', import.meta.url)), 'utf8'); expect(asset).toBe(source); expect(asset).toContain('Apache License'); expect(asset).toContain('Permission is hereby granted'); });

@@ -27,3 +27,5 @@ Optional controlled admin fixture: `/?admin=1` exercises existing kit-admin/sett
 Optional observation fixture: `/?observations=1` renders actual kit-observe health/stat/diagnostic and opt-in exact-sample chart components with fixed time, retained evidence and held scripted producers. See [controlled observation ownership and proof](docs/controlled-observations.md).
 
 Optional developer/workflow fixture: `/?developer=1` exercises actual private licensed kit-code/workflow candidates with controlled file/node selection, inert drafts and held inspector retirement. [Compatibility, optional entry ownership and limits](docs/controlled-developer-review.md).
+
+Optional voice/media fixture: `/?voice=1` uses actual controlled kit-voice candidates with local authored silence playback, voice/segment selection and held preview retirement. [Compatibility, disabled capture and ownership limits](docs/controlled-voice-media.md).
