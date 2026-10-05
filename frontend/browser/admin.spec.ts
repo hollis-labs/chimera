@@ -7,6 +7,7 @@ test('desired provenance, locked controls and restart metadata remain distinct f
     await expect(content.getByRole('textbox', { name: 'Region', exact: true })).toBeDisabled();
     await expect(content.getByRole('textbox', { name: 'Config path', exact: true })).toBeDisabled();
     await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toBeEnabled();
+    const rail=await page.locator('.admin-layout > nav').boundingBox(),body=await content.boundingBox();expect(rail).not.toBeNull();expect(body).not.toBeNull();expect(body!.x).toBeGreaterThan(rail!.x);expect(Math.abs(body!.y-rail!.y)).toBeLessThan(2);
     await page.screenshot({path:'../.scratch/controlled-admin-settings.png',fullPage:true});
     await content.getByRole('textbox', { name: 'Mode', exact: true }).fill('light');
     await content.getByRole('button', { name: 'Save changes', exact: true }).click();
@@ -36,6 +37,7 @@ test('initial, retained refresh and group failures remain local and honest', asy
     await expect(content.getByText('Fixture declaration refresh failed')).toBeVisible();
     await expect(content.getByText('Fixture override')).toBeVisible();
     await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toBeDisabled();
+    await page.getByRole('button',{name:'Status',exact:true}).click();await expect(content.getByText('Observed runtime',{exact:true})).toBeVisible();
     await page.getByRole('button', { name: 'group', exact: true }).click();
     await expect(content.getByText('Fixture group read unavailable')).toBeVisible();
     await content.getByRole('button', { name: 'Read-only limits', exact: true }).click();
@@ -83,8 +85,8 @@ test('read-only omission, accessible setup and narrow styled controls use actual
     await expect(content.getByText('Review-only resource')).toBeVisible();
     const layout = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, width: innerWidth }));
     expect(layout.scroll).toBeLessThanOrEqual(layout.width);
-    const padding = await next.count() ? await next.evaluate(element => getComputedStyle(element).paddingLeft) : '';
-    expect(padding).not.toBe('0px');
+    const padding = await next.evaluate(element => getComputedStyle(element).paddingLeft);
+    expect(parseFloat(padding)).toBeGreaterThanOrEqual(8);
     await page.screenshot({ path: '../.scratch/controlled-admin-consumer.png', fullPage: true });
 });
 

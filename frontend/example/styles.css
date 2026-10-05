@@ -13,3 +13,5 @@ main > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
 @import '@hollis-labs/kit-observe/source.css';
 @import '@hollis-labs/kit-admin/source.css';
 nav[aria-label="Fixture scenarios"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
+
+.admin-layout { @apply grid grid-cols-[auto_minmax(0,1fr)] items-start gap-4; }

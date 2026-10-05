@@ -19,7 +19,8 @@ export function controlledAdminFixture(contextKey: string, nowMs: number, source
         state.set(change(state.getSnapshot())); }
     function make(): AdminContentProps {
         const stamp = epoch;
-        const active = () => !disposed && stamp === epoch && state.getSnapshot().discovery.phase === 'ready' && state.getSnapshot().discovery.contextKey === context;
+        const alive = () => !disposed && stamp === epoch && state.getSnapshot().discovery.contextKey === context;
+        const active = () => alive() && state.getSnapshot().discovery.phase === 'ready';
         const available = (group: string) => active() && state.getSnapshot().settings?.[group]?.phase === 'ready';
         function patchGroup(group: string, patch: Partial<SettingsProvenanceState>) { update(props => { const read = props.settings?.[group]; if (!read?.state)
             return props; return { ...props, settings: { ...props.settings, [group]: { ...read, state: { ...read.state, ...patch } } } }; }); }
@@ -30,7 +31,7 @@ export function controlledAdminFixture(contextKey: string, nowMs: number, source
         function check(group: string) { if (!available(group))
             return; const ticket = session.begin(`check:${group}`); update(props => ({ ...props, setup: { ...props.setup!, checks: { ...props.setup?.checks, [group]: { status: 'running', blocking: true, message: 'Fixture check pending' } } } })); held.push(() => ticket.commit(() => { update(props => ({ ...props, setup: { ...props.setup!, checks: { ...props.setup?.checks, [group]: { status: 'ok', blocking: true, message: 'Scripted fixture check only' } } } })); })); }
         const checks: Record<string, SettingsWizardCheck> = { appearance: { status: 'idle', blocking: true }, limits: { status: 'idle', blocking: false } };
-        return { contextKey: context, nowMs, discovery: { phase: 'ready', contextKey: context, manifest }, selection: { page: 'settings', groupId: 'appearance' }, destination: (target: AdminTarget) => ({ onSelect: () => { if (active())
+        return { contextKey: context, nowMs, discovery: { phase: 'ready', contextKey: context, manifest }, selection: { page: 'settings', groupId: 'appearance' }, destination: (target: AdminTarget) => ({ onSelect: () => { if (alive())
                     update(props => ({ ...props, selection: target })); } }), settings: reads(), settingsActions: { onDraftChange: draft, onSave: (group: string) => intent(group, 'save'), onReset: (group: string) => intent(group, 'reset'), onValidate: (group: string) => intent(group, 'validate'), onApply: (group: string) => intent(group, 'apply') }, setup: { step: 0, checks, results: {}, onStepChange: (step: number) => { if (active())
                     update(props => ({ ...props, setup: { ...props.setup!, step } })); }, onCheck: check, onComplete: (plan: readonly SettingsWizardIntent[]) => { if (!active())
                     return; const ticket = session.begin('setup'); update(props => ({ ...props, setup: { ...props.setup!, busy: true } })); held.push(() => ticket.commit(() => { const results: Record<string, SettingsWizardResult> = {}; for (const item of plan)
