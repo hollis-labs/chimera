@@ -1,0 +1,5 @@
+@reference './styles.css';
+.dashboard-panels { @apply grid grid-cols-1 lg:grid-cols-2 items-start gap-4; }
+.dashboard-panels > * { @apply min-w-0; }
+.dashboard-caption, .dashboard-category-list { @apply p-3 text-sm text-fg-muted; }
+.dashboard-compact { @apply grid-cols-1; }

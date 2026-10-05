@@ -9,6 +9,15 @@
 body { @apply bg-surface text-fg font-sans; }
 main > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
 @import '@hollis-labs/kit-dashboard/source.css';
+/* Released dashboard legacy utility vocabulary mapped to current semantic tokens. */
+@theme inline {
+  --color-text: var(--color-fg);
+  --color-text-muted: var(--color-fg-muted);
+  --color-text-soft: var(--color-fg);
+  --color-text-subtle: var(--color-fg-muted);
+  --color-panel: var(--color-bg-elevated);
+  --color-panel-2: var(--color-surface);
+}
 @import '@hollis-labs/kit-settings/source.css';
 @import '@hollis-labs/kit-observe/source.css';
 @import '@hollis-labs/kit-admin/source.css';

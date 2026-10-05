@@ -33,3 +33,5 @@ Optional voice/media fixture: `/?voice=1` uses actual controlled kit-voice candi
 Optional controlled shell fixture: `/?shell=1` composes actual AppShell/DetailPageLayout/OverlaySidebar around embedded records and real admitted plugin views. [State retention/reset, scroll/focus and ownership proof](docs/controlled-shell-layout.md).
 
 Optional deterministic playback fixture: `/?playback=1` aligns actual plugin props/action invocation to one authored cutoff snapshot with manual clock controls and held producer retirement. [Projection, remount and cleanup policy](docs/controlled-playback.md).
+
+Optional dashboard composition fixture: `/?dashboard=1` adds actual released dashboard panels with cutoff counts, explicit zero/uncollected evidence and controlled plugin composition. [Retention, evidence scope and style ownership](docs/controlled-dashboard.md).
