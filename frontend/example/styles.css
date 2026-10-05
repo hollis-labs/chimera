@@ -5,3 +5,6 @@
 @source './*.tsx';
 /* Exact owned fixture plugin sources; generated binaries/assets are excluded. */
 @source '../../examples/fake-controlplane/main.go';
+/* The isolated proof uses the same token theme in its parent and child realms. */
+body { @apply bg-surface text-fg font-sans; }
+main > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
