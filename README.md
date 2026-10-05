@@ -21,3 +21,5 @@ An isolated second consumer runs with `npm ci --prefix frontend && npm run build
 Scope limits: Folio artifacts are proposed wiring, with no upstream preset edit. Tachyon adoption remains unimplemented. The optional reviewed frame consumer (`/?frames=1`, proof ports 18543/18544) integrates shared verified-byte isolation with exact document policies; see [frame delivery and containment limits](docs/frame-delivery.md). There is no implicit main-origin fallback.
 
 Linux environments missing Chromium system libraries may install browser dependencies through Playwright in CI. Local verification used a repo-local extracted `libasound2t64` and `LD_LIBRARY_PATH` in ignored `.scratch`; no system package or service was changed.
+
+Optional controlled admin fixture: `/?admin=1` exercises existing kit-admin/settings/observe with app-owned snapshots, provenance, setup and held intent-only outcomes. See [the small lifetime adapter and integration boundaries](docs/controlled-admin.md).

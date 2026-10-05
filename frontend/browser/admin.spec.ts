@@ -1,0 +1,91 @@
+import { test, expect } from '@playwright/test';
+test.beforeEach(async ({ page }) => { await page.goto('/?admin=1'); await expect(page.getByRole('heading', { name: 'Controlled administration proof' })).toBeVisible(); });
+test('desired provenance, locked controls and restart metadata remain distinct from observations', async ({ page }) => {
+    const content = page.getByRole('region', { name: 'Controlled admin content' });
+    for (const text of ['Reviewed defaults', 'FIXTURE_REGION', 'Reviewed config file', 'Fixture override', 'Pending restart'])
+        await expect(content.getByText(text)).toBeVisible();
+    await expect(content.getByRole('textbox', { name: 'Region', exact: true })).toBeDisabled();
+    await expect(content.getByRole('textbox', { name: 'Config path', exact: true })).toBeDisabled();
+    await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toBeEnabled();
+    await page.screenshot({path:'../.scratch/controlled-admin-settings.png',fullPage:true});
+    await content.getByRole('textbox', { name: 'Mode', exact: true }).fill('light');
+    await content.getByRole('button', { name: 'Save changes', exact: true }).click();
+    await expect(content.getByText('Fixture intent pending; no configuration effect')).toBeVisible();
+    await page.getByRole('button', { name: 'Release pending fixture outcome' }).click();
+    await expect(content.getByText('Fixture rejection: no persistence configured')).toBeVisible();
+    await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toHaveValue('light');
+    await expect(content.getByText('Apply state: Pending restart', { exact: true })).toBeVisible();
+    await content.getByRole('button',{name:'Apply / restart',exact:true}).click();
+    await page.getByRole('button',{name:'Release pending fixture outcome'}).click();
+    await expect(content.getByText('Fixture apply intent reviewed; no changes applied')).toBeVisible();
+    await expect(content.getByText('Apply state: Pending restart',{exact:true})).toBeVisible();
+    await page.getByRole('button', { name: 'Status', exact: true }).click();
+    await expect(content.getByText('Observed runtime', { exact: true })).toBeVisible();
+    await expect(content.getByText('Fixture override')).toHaveCount(0);
+    await expect(content.getByText('degraded', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Diagnostics', exact: true }).click();
+    await expect(content.getByText('Observed diagnostics', { exact: true })).toBeVisible();
+    await expect(content.getByRole('button', { name: /Copy/ })).toBeVisible();
+});
+test('initial, retained refresh and group failures remain local and honest', async ({ page }) => {
+    const content = page.getByRole('region', { name: 'Controlled admin content' });
+    await page.getByRole('button', { name: 'initial', exact: true }).click();
+    await expect(content.getByText('Fixture initial discovery unavailable')).toBeVisible();
+    await expect(content.getByText('Fixture override')).toHaveCount(0);
+    await page.getByRole('button', { name: 'refresh', exact: true }).click();
+    await expect(content.getByText('Fixture declaration refresh failed')).toBeVisible();
+    await expect(content.getByText('Fixture override')).toBeVisible();
+    await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: 'group', exact: true }).click();
+    await expect(content.getByText('Fixture group read unavailable')).toBeVisible();
+    await content.getByRole('button', { name: 'Read-only limits', exact: true }).click();
+    await expect(content.getByText('Reviewed limits file')).toBeVisible();
+    await page.getByRole('button', { name: 'observation', exact: true }).click();
+    await page.getByRole('button', { name: 'Status', exact: true }).click();
+    await expect(content.getByText('Fixture runtime refresh failed')).toBeVisible();
+    await expect(content.getByText('degraded', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'stale', exact: true }).click();
+    await page.getByRole('button', { name: 'Status', exact: true }).click();
+    await expect(content.getByText('Stale', { exact: true })).toBeVisible();
+});
+for (const retirement of ['context', 'source'])
+    test(`held settings and setup outcomes cannot commit after ${retirement} retirement`, async ({ page }) => {
+        const content = page.getByRole('region', { name: 'Controlled admin content' });
+        await content.getByRole('textbox', { name: 'Mode', exact: true }).fill('previous-draft');
+        await content.getByRole('button', { name: 'Save changes', exact: true }).click();
+        await page.getByRole('button', { name: retirement === 'context' ? 'Switch admin context' : 'Retire admin source' }).click();
+        await page.getByRole('button', { name: 'Release pending fixture outcome' }).click();
+        await expect(content.getByRole('textbox', { name: 'Mode', exact: true })).toHaveValue('dark');
+        await expect(page.getByRole('region', { name: 'Admin fixture outcomes' })).toBeEmpty();
+        await expect(content.getByText('Fixture rejection: no persistence configured')).toHaveCount(0);
+        await page.getByRole('button', { name: 'setup', exact: true }).click();
+        await content.getByRole('button', { name: 'Request connectivity check' }).click();
+        await expect(content.getByText('Fixture check pending')).toBeVisible();
+        await page.getByRole('button', { name: 'ready', exact: true }).click();
+        await page.getByRole('button', { name: 'Release pending fixture outcome' }).click();
+        await page.getByRole('button', { name: 'setup', exact: true }).click();
+        await expect(content.getByText('Not checked')).toBeVisible();
+        await expect(content.getByText('Scripted fixture check only')).toHaveCount(0);
+    });
+test('read-only omission, accessible setup and narrow styled controls use actual kit owners', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    const content = page.getByRole('region', { name: 'Controlled admin content' });
+    await page.getByRole('button', { name: 'readonly', exact: true }).click();
+    await expect(content.getByRole('button', { name: 'Save changes', exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'setup', exact: true }).click();
+    await expect(content.getByText('Not checked')).toBeVisible();
+    await content.getByRole('button', { name: 'Request connectivity check' }).click();
+    await page.getByRole('button', { name: 'Release pending fixture outcome' }).click();
+    await expect(content.getByText('Scripted fixture check only')).toBeVisible();
+    const next = content.getByRole('button', { name: 'Next', exact: true });
+    await next.focus();
+    await page.keyboard.press('Enter');
+    await expect(content.getByText('Review-only resource')).toBeVisible();
+    const layout = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, width: innerWidth }));
+    expect(layout.scroll).toBeLessThanOrEqual(layout.width);
+    const padding = await next.count() ? await next.evaluate(element => getComputedStyle(element).paddingLeft) : '';
+    expect(padding).not.toBe('0px');
+    await page.screenshot({ path: '../.scratch/controlled-admin-consumer.png', fullPage: true });
+});
+
+test('setup review reports scripted failure without saved state or draft removal',async({page})=>{const content=page.getByRole('region',{name:'Controlled admin content'});await page.getByRole('button',{name:'setup',exact:true}).click();await content.getByRole('textbox',{name:'Mode',exact:true}).fill('fixture-review');await content.getByRole('button',{name:'Request connectivity check'}).click();await page.getByRole('button',{name:'Release pending fixture outcome'}).click();await content.getByRole('button',{name:'Next',exact:true}).click();await content.getByRole('button',{name:'Next',exact:true}).click();await expect(content.getByRole('heading',{name:'Review setup'})).toBeVisible();await content.getByRole('button',{name:'Submit setup',exact:true}).click();await expect(content.getByRole('button',{name:'Submit setup',exact:true})).toBeDisabled();await page.getByRole('button',{name:'Release pending fixture outcome'}).click();await expect(content.getByText('Fixture completion intent only; no save executed')).toBeVisible();await expect(content.getByText('Save result: Saved',{exact:true})).toHaveCount(0);await content.getByRole('button',{name:'Back',exact:true}).click();await content.getByRole('button',{name:'Back',exact:true}).click();await expect(content.getByRole('textbox',{name:'Mode',exact:true})).toHaveValue('fixture-review')})

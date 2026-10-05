@@ -8,3 +8,8 @@
 /* The isolated proof uses the same token theme in its parent and child realms. */
 body { @apply bg-surface text-fg font-sans; }
 main > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
+@import '@hollis-labs/kit-dashboard/source.css';
+@import '@hollis-labs/kit-settings/source.css';
+@import '@hollis-labs/kit-observe/source.css';
+@import '@hollis-labs/kit-admin/source.css';
+nav[aria-label="Fixture scenarios"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }

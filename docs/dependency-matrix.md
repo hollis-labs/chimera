@@ -17,3 +17,5 @@ Rejected combinations: plugin-sdk v0.6.1 still exposes registry 1; plugin-host v
 The current driver defaults differ from historical Tachyon/source documentation: protocol-2 unload is terminal and cleanup executes once; inbound/outbound frames default to 8 MiB. Tests exercise the consumed version, not stale local README claims.
 
 Frame checkpoint registry audit on 2026-10-05 confirms React/React DOM 19.3.0, plugin-registry 0.2.0 and design-components 0.4.0 are the available published versions, matching the existing lock. Frame artifacts/bootstrap use the same exact unpublished candidate; no archive or upstream source change was needed. Frame React/ReactDOM/design/style bytes are produced by the shared builder and verified per realm, with declared inventory choices in `frontend/example/frame-build.ts`.
+
+2026-10-05 controlled-admin follow-up rechecked published npm latest: kit-admin0.1.0, kit-settings0.2.0, kit-observe0.1.1 remain pinned and unchanged. Published extensionless declaration re-exports resolve under TypeScript ESNext/Bundler; negative type-level assertions reject accidental any. No npm candidate/publication or package change was needed.
