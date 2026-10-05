@@ -23,3 +23,5 @@ Scope limits: Folio artifacts are proposed wiring, with no upstream preset edit.
 Linux environments missing Chromium system libraries may install browser dependencies through Playwright in CI. Local verification used a repo-local extracted `libasound2t64` and `LD_LIBRARY_PATH` in ignored `.scratch`; no system package or service was changed.
 
 Optional controlled admin fixture: `/?admin=1` exercises existing kit-admin/settings/observe with app-owned snapshots, provenance, setup and held intent-only outcomes. See [the small lifetime adapter and integration boundaries](docs/controlled-admin.md).
+
+Optional observation fixture: `/?observations=1` renders actual kit-observe health/stat/diagnostic and opt-in exact-sample chart components with fixed time, retained evidence and held scripted producers. See [controlled observation ownership and proof](docs/controlled-observations.md).

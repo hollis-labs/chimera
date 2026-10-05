@@ -15,3 +15,6 @@ main > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
 nav[aria-label="Fixture scenarios"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
 
 .admin-layout { @apply grid grid-cols-[auto_minmax(0,1fr)] items-start gap-4; }
+
+.observation-layout { @apply grid grid-cols-1 lg:grid-cols-2 items-start gap-4; }
+nav[aria-label="Observation scenarios"] > button, nav[aria-label="Observation controls"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }

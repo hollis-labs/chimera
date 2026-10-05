@@ -17,3 +17,6 @@ export type {IsolatedCompositionOptions} from './frames.js'
 export {createAdminPresentationSession} from './admin-session.js'
 export type {AdminPresentationTicket} from './admin-session.js'
 export {controlledAdminFixture} from './admin-controlled-fixture.js'
+
+export {controlledObservationFixture} from "./observation-fixture.js"
+export type {ObservationFixtureResource,ObservationFixtureSnapshot} from "./observation-fixture.js"
