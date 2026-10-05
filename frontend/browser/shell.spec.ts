@@ -111,9 +111,12 @@ test('narrow overlay contains keyboard focus, selects app route and returns focu
     expect(overlayStyle.color).toBe(overlayStyle.fg);
     expect(overlayStyle.height).toBe(844);
     expect(overlayStyle.width).toBe(320);
-    for (let i = 0; i < 8; i++)
+    await expect.poll(() => dialog.evaluate(element => element.contains(document.activeElement))).toBe(true);
+    for (let i = 0; i < 8; i++) {
         await page.keyboard.press('Tab');
-    expect(await dialog.evaluate(element => element.contains(document.activeElement))).toBe(true);
+        await expect.poll(() => dialog.evaluate(element => element.contains(document.activeElement))).toBe(true);
+    }
+    await expect(dialog.locator('button:focus')).toHaveCount(1);
     await page.screenshot({ path: '../.scratch/controlled-shell-overlay.png' });
     await page.keyboard.press('Escape');
     await expect(dialog).toHaveCount(0);
