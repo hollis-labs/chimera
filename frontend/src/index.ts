@@ -11,3 +11,6 @@ export type {CompositionOptions,PresentationRoute} from './composition.js'
 export {createFixtureActions} from './fixture-actions.js'
 export type {FixtureActionsOptions,FixtureModal,SimulationReceipt} from './fixture-actions.js'
 export {createRoutingExample,exampleIntents,exampleKinds,exampleRegions} from './routing-example.js'
+
+export {httpFrameDelivery,createIsolatedComposition} from './frames.js'
+export type {IsolatedCompositionOptions} from './frames.js'

@@ -7,6 +7,7 @@ type ModalIntent=Extract<PluginActionIntent,{type:'modal'}>
 export interface FixtureModal {source:ContributionRef;target:ContributionRef;intent:ModalIntent}
 export interface SimulationReceipt {id:number;command:string;source:ContributionRef;status:'pending'|'simulated'|'cancelled';outcome?:'success'|'refused'|'error'}
 export interface FixtureActionsOptions {
+ bindings?:PluginActionsAdapter['bindings']
  scope:Observable<HostScope|undefined>
  invocation:Observable<Readonly<Record<string,unknown>>>
  routes:readonly string[]
@@ -30,7 +31,7 @@ export function createFixtureActions(options:FixtureActionsOptions){
  const releases=[options.scope.subscribe(reset),options.invocation.subscribe(reset)]
  const live=(signal:AbortSignal,stamp:number)=>!disposed&&!signal.aborted&&stamp===epoch
  const update=(id:number,patch:Partial<SimulationReceipt>)=>receipts.set(receipts.getSnapshot().map(receipt=>receipt.id===id?Object.freeze({...receipt,...patch}):receipt))
- const adapter:PluginActionsAdapter={scope:options.scope,invocation:options.invocation,
+ const adapter:PluginActionsAdapter={bindings:options.bindings,scope:options.scope,invocation:options.invocation,
  async validate(intent,context,signal){
   const stamp=epoch;await options.validateWait?.(intent,signal)
   if(!live(signal,stamp))return refused('cancelled')

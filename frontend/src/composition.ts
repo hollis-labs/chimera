@@ -10,6 +10,7 @@ export function memoryLayoutStorage():LayoutStorage {
  return {read:key=>values.get(key)??null,write:(key,value)=>{values.set(key,value)},remove:key=>{values.delete(key)}}
 }
 export interface CompositionOptions {
+ frameController?:PluginHostAdapter<PluginRegistryResponse>['frameController']
  scope:HostScope
  registryOptions:PluginRegistryOptions
  catalog:SlotCatalogDefinitions
@@ -33,7 +34,7 @@ export function createPresentationComposition(options:CompositionOptions){
  const diagnostics=options.diagnostics??(()=>{})
  const layouts=new Map(catalog.regions.map(region=>[region.name,createPluginLayoutStore(options.storage,options.scope,region.name,1,diagnostics)]))
  const panels=store<readonly ContributionView[]>([])
- const app=createPresentationHost(options.registryOptions,{scope:options.scope,catalog,isolation:options.isolation,renderContext:options.renderContext,actions:options.actions,diagnostics,
+ const app=createPresentationHost(options.registryOptions,{scope:options.scope,catalog,isolation:options.isolation,renderContext:options.renderContext,actions:options.actions,frameController:options.frameController,diagnostics,
  panels:{reconcile(_scope,views){panels.set(Object.freeze([...views]))},releaseScope(){panels.set([])}}})
  const refresh=()=>{for(const [region,layout] of layouts){const active=app.runtime.getSnapshot().views.filter(view=>view.region===region&&app.runtime.isCurrent(view));layout.reconcile(active.map(view=>view.id))}}
  const releaseRetain=app.runtime.retain()

@@ -13,6 +13,8 @@ import (
 	"net"
 	"net/http"
 	"os/signal"
+	"strings"
+	"sync/atomic"
 	"syscall"
 
 	"github.com/hollis-labs/chimera/host"
@@ -112,6 +114,12 @@ func main() {
 	addr := flag.String("addr", "127.0.0.1:0", "isolated listen address")
 	flag.Parse()
 	routes := http.NewServeMux()
+	var frameEgress atomic.Int64
+	routes.HandleFunc("/api/blocked-frame/", func(w http.ResponseWriter, r *http.Request) { frameEgress.Add(1); w.WriteHeader(http.StatusNoContent) })
+	routes.HandleFunc("GET /api/frame-egress", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(map[string]int64{"received": frameEgress.Load()})
+	})
 	routes.HandleFunc("GET /api/providers", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode([]map[string]string{{"id": "fake-agent-fabric", "status": "unavailable", "ownership": "application"}})
@@ -119,6 +127,27 @@ func main() {
 	delivery, err := demoPlugins(false)
 	if err != nil {
 		log.Fatal(err)
+	}
+	template, err := embedded.ReadFile("dist/frame-document.json")
+	if err == nil {
+		admit, err := reviewedFrameAdmission(template)
+		if err != nil {
+			log.Fatal(err)
+		}
+		documents, err := host.NewFrameDocuments(host.FrameDocumentsConfig{Admit: admit})
+		if err != nil {
+			log.Fatal(err)
+		}
+		routes.Handle("/api/frame-documents/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method == http.MethodPost || r.Method == http.MethodDelete {
+				origin := r.Header.Get("Origin")
+				if origin != "http://127.0.0.1:18543" && origin != "http://127.0.0.1:18544" {
+					http.Error(w, "fixture origin denied", http.StatusForbidden)
+					return
+				}
+			}
+			http.StripPrefix("/api/frame-documents", documents).ServeHTTP(w, r)
+		}))
 	}
 	failure, err := demoPlugins(true)
 	if err != nil {
@@ -129,7 +158,34 @@ func main() {
 		request.URL.Path = "/plugins/registry"
 		failure.ServeHTTP(w, request)
 	})
+	frameDeliveries := map[string]*plugins.Delivery{}
+	for _, generation := range []string{"g1", "g2", "g3"} {
+		frameDelivery, err := demoFramePlugins(generation)
+		if err != nil {
+			log.Fatal(err)
+		}
+		frameDeliveries[generation] = frameDelivery
+	}
+	routes.HandleFunc("GET /api/frame-registry", func(w http.ResponseWriter, r *http.Request) {
+		generation := r.URL.Query().Get("generation")
+		if generation == "" {
+			generation = "g1"
+		}
+		delivery := frameDeliveries[generation]
+		if delivery == nil {
+			http.Error(w, "unreviewed fixture generation", 400)
+			return
+		}
+		request := r.Clone(r.Context())
+		request.URL.Path = "/plugins/registry"
+		delivery.ServeHTTP(w, request)
+	})
 	pluginHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		parts := strings.Split(r.URL.Path, "/")
+		if len(parts) == 5 && strings.HasPrefix(parts[2], "frame-") && frameDeliveries[parts[3]] != nil {
+			frameDeliveries[parts[3]].ServeHTTP(w, r)
+			return
+		}
 		if r.URL.Path == "/plugins/failed-import/g1/bundle.js" {
 			failure.ServeHTTP(w, r)
 		} else {

@@ -1,4 +1,5 @@
 import './styles.css'
+import {FrameStartup} from './frame-example.js'
 import {DetailDialog} from '@hollis-labs/design-components'
 import {createRoot} from 'react-dom/client'
 import {useEffect,useState,useSyncExternalStore,useRef} from 'react'
@@ -29,4 +30,4 @@ function Startup(){const[app,setApp]=useState<App>(),[error,setError]=useState('
  async function switchContext(){const old=current.current;if(!old)return;current.current=undefined;previous.current=old.completeProducer;const epoch=++serial.current;loading.current?.abort();old.invalidateContext();setApp(undefined);await old.dispose();if(!mounted.current||epoch!==serial.current)return;const next=factory.current(`context-${epoch+1}`);current.current=next;const controller=new AbortController();loading.current=controller;setApp(next);try{await next.load('/plugins/registry',controller.signal)}catch{if(mounted.current&&epoch===serial.current)setError('Plugin registry unavailable')}finally{if(!mounted.current||epoch!==serial.current)await next.dispose()}}
  return error?<p role="alert">{error}</p>:app?<PluginHostProvider runtime={app.runtime}><Views key={app.contextKey} app={app} switchContext={()=>{void switchContext()}} completePrevious={()=>previous.current()}/></PluginHostProvider>:<p>Loading fixture context</p>
 }
-createRoot(document.getElementById('root')!).render(<Startup/> )
+createRoot(document.getElementById('root')!).render(new URLSearchParams(location.search).has('frames')?<FrameStartup/>:<Startup/> )

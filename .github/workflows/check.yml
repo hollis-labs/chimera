@@ -32,3 +32,4 @@ jobs:
       - run: mkdir -p .scratch && GOWORK=off go build -o .scratch/fake-controlplane ./examples/fake-controlplane
       - run: cd frontend && npx playwright install --with-deps chromium
       - run: npm run test:browser --prefix frontend
+      - run: npm run test:upstream-frames --prefix frontend

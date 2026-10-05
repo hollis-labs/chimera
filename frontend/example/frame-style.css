@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@import '@hollis-labs/design-tokens/design-tokens.css';
+@import '@hollis-labs/design-components/source.css';
+@source '../../examples/fake-controlplane/frame_plugins.go';
+body { color: var(--color-fg); background: var(--color-surface); font-family: var(--font-sans); }
+button { color: var(--color-fg); background: var(--color-bg-elevated); padding: calc(var(--spacing) * 3); border-radius: var(--radius-sm); }

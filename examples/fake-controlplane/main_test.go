@@ -6,6 +6,7 @@ import (
 	"github.com/hollis-labs/plugin-sdk/registry"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -54,5 +55,41 @@ func TestReviewedRoutingFixtures(t *testing.T) {
 				t.Fatalf("owner %s announced unverified bytes", owner)
 			}
 		}
+	}
+}
+
+func TestReviewedFrameTemplateRequiresCanonicalNonceAndParentOrigin(t *testing.T) {
+	template := []byte(`{"html":"<script id=\"plugin-frame-config\" type=\"application/json\">{\"bridge_version\":1,\"frame_id\":\"__FRAME_ID__\",\"nonce\":\"__BRIDGE_NONCE__\",\"parent_origin\":\"__PARENT_ORIGIN__\"}</script><script nonce=\"__DOCUMENT_NONCE__\">reviewed-bootstrap</script>","csp":"script-src 'nonce-__DOCUMENT_NONCE__'","permissionsPolicy":"camera=()"}`)
+	admit, err := reviewedFrameAdmission(template)
+	if err != nil {
+		t.Fatal(err)
+	}
+	nonce := "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+	document := host.FrameDocument{FrameID: strings.Repeat("a", 64), CSP: "script-src 'nonce-" + nonce + "'", PermissionsPolicy: "camera=()", HTML: `<script id="plugin-frame-config" type="application/json">{"bridge_version":1,"frame_id":"` + strings.Repeat("a", 64) + `","nonce":"` + strings.Repeat("b", 64) + `","parent_origin":"http://127.0.0.1:18543"}</script><script nonce="` + nonce + `">reviewed-bootstrap</script>`}
+	request := httptest.NewRequest("POST", "/", nil)
+	request.Header.Set("Origin", "http://127.0.0.1:18543")
+	if !admit(request, document) {
+		t.Fatal("exact template refused")
+	}
+	request.Header.Set("Origin", "https://unreviewed.invalid")
+	if admit(request, document) {
+		t.Fatal("foreign origin accepted")
+	}
+	request.Header.Set("Origin", "http://127.0.0.1:18543")
+	bad := document
+	bad.HTML = strings.ReplaceAll(bad.HTML, "reviewed-bootstrap", "unreviewed-bootstrap")
+	if admit(request, bad) {
+		t.Fatal("unreviewed bootstrap accepted")
+	}
+	bad = document
+	bad.CSP = "default-src *"
+	if admit(request, bad) {
+		t.Fatal("relaxed policy accepted")
+	}
+	bad = document
+	bad.HTML = strings.ReplaceAll(bad.HTML, nonce, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB=")
+	bad.CSP = strings.ReplaceAll(bad.CSP, nonce, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB=")
+	if admit(request, bad) {
+		t.Fatal("noncanonical nonce accepted")
 	}
 }

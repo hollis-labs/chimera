@@ -8,7 +8,8 @@
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "build:example": "vite build --config example/vite.config.ts",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "test:upstream-frames": "node upstream-frame-browser/run.mjs"
   },
   "dependencies": {
     "@hollis-labs/plugin-host-ui": "file:../third_party/hollis-labs-plugin-host-ui-0.1.0.tgz",
