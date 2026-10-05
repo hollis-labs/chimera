@@ -14,3 +14,5 @@ export {createRoutingExample,exampleIntents,exampleKinds,exampleRegions} from '.
 
 export {httpFrameDelivery,createIsolatedComposition} from './frames.js'
 export type {IsolatedCompositionOptions} from './frames.js'
+export {createAdminPresentationSession} from './admin-session.js'
+export type {AdminPresentationTicket} from './admin-session.js'
