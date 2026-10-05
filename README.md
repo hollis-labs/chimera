@@ -29,3 +29,5 @@ Optional observation fixture: `/?observations=1` renders actual kit-observe heal
 Optional developer/workflow fixture: `/?developer=1` exercises actual private licensed kit-code/workflow candidates with controlled file/node selection, inert drafts and held inspector retirement. [Compatibility, optional entry ownership and limits](docs/controlled-developer-review.md).
 
 Optional voice/media fixture: `/?voice=1` uses actual controlled kit-voice candidates with local authored silence playback, voice/segment selection and held preview retirement. [Compatibility, disabled capture and ownership limits](docs/controlled-voice-media.md).
+
+Optional controlled shell fixture: `/?shell=1` composes actual AppShell/DetailPageLayout/OverlaySidebar around embedded records and real admitted plugin views. [State retention/reset, scroll/focus and ownership proof](docs/controlled-shell-layout.md).

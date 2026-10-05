@@ -1,0 +1,16 @@
+@reference './styles.css';
+@import '@hollis-labs/design-app-runtime/shell-reset.css';
+.shell-rail { @apply hidden md:block w-48 shrink-0 overflow-y-auto border-r border-border-subtle bg-bg-elevated p-3; }
+.shell-navigation { @apply flex flex-col items-stretch gap-2; }
+.shell-navigation button[aria-current="page"] { @apply bg-primary-muted text-fg font-semibold; }
+.shell-header { @apply flex shrink-0 flex-wrap items-center gap-3 border-b border-border-subtle bg-bg-elevated p-3; }
+.shell-header h1 { @apply font-semibold; }
+.shell-header a { @apply underline; }
+.shell-view-header { @apply shrink-0 border-b border-border-subtle p-3; }
+.shell-view-header h2:focus-visible { @apply outline-2 outline-primary outline-offset-2; }
+.shell-scroll-content { @apply min-w-0 space-y-4 p-4; }
+.shell-scroll-content section[aria-label="Shell layout controls"] { @apply flex flex-wrap gap-2; }
+.shell-widgets { @apply grid grid-cols-1 items-start gap-3; }
+.shell-widgets-grid { @apply md:grid-cols-2; }
+.shell-record { @apply rounded-control border border-border-subtle bg-bg-elevated p-3; }
+.shell-widgets button { @apply max-w-full whitespace-normal text-left; }
