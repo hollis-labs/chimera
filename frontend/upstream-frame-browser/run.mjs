@@ -8,7 +8,7 @@ import { chromium } from 'playwright'
 import { buildFrameArtifacts, buildFrameBootstrap } from '@hollis-labs/plugin-host-ui/vite'
 import { artifactModuleUrl } from '@hollis-labs/plugin-host-ui/isolation'
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
-const scratchRoot=join(root,'..','.scratch','upstream-frame-browser');await mkdir(scratchRoot,{recursive:true})
+const scratchRoot=join(root,'..','.scratch','upstream-frame-browser');await mkdir(scratchRoot,{recursive:true});process.env.TMPDIR=scratchRoot
 const scratch = await mkdtemp(join(scratchRoot,'run-'))
 let browser, server
 const docs = new Map(), requests = [], proofs = []
