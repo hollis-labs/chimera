@@ -1,0 +1,9 @@
+@reference './styles.css';
+.playback-proof { @apply p-4 space-y-4; }
+.playback-proof nav { @apply flex flex-wrap gap-2; }
+.playback-proof label { @apply flex flex-wrap items-center gap-3; }
+.playback-proof input[type="range"] { @apply max-w-full accent-primary; }
+.playback-proof input[type="range"]:focus-visible { @apply outline-2 outline-primary outline-offset-2; }
+.playback-columns { @apply grid grid-cols-1 lg:grid-cols-2 items-start gap-4; }
+.playback-columns section { @apply min-w-0 space-y-3; }
+.playback-columns button { @apply max-w-full whitespace-normal text-left; }

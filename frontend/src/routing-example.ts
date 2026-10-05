@@ -27,7 +27,8 @@ function metadata(entry:RegistryEntry):boolean {
  const value=entry.metadata as Record<string,unknown>
  return Object.keys(value).every(key=>['label','priority','manifest_order'].includes(key))&&typeof value.label==='string'&&value.label.length>0&&value.label.length<=120&&Number.isSafeInteger(value.manifest_order)&&Number.isInteger(value.priority)&&Number(value.priority)>=-2147483648&&Number(value.priority)<=2147483647
 }
-const catalog:SlotCatalogDefinitions={
+/** App-owned reviewed fixture catalogue, reused by isolated consumer proofs. */
+export const exampleCatalog:SlotCatalogDefinitions={
  kinds:definitions.map(definition=>({kind:definition.kind,schemaVersion:1,role:definition.role,representations:[definition.representation],regions:definition.regions,
  validate:entry=>metadata(entry)&&(definition.representation!=='declarative'||Object.hasOwn(exampleIntents,entry.local_key))&&(definition.kind!=='command'||entry.handler?.id==='fixture-simulation'),
  project:entry=>{const value=entry.metadata as {label:string;priority:number;manifest_order:number};return {label:value.label,region:entry.component?.region??definition.regions[0],priority:value.priority,manifestOrder:value.manifest_order,action:exampleIntents[entry.local_key]}}
@@ -43,7 +44,7 @@ export function createRoutingExample(contextKey:string,stylesheets:StylesheetSin
  const isolation=store<AppIsolationSnapshot>({appId:scope.appId,effectiveMode:'main-origin',revision:'explicit-reviewed-offline-fixture'})
  const diagnostics=store<readonly string[]>([]),pending:((()=>void))[]=[]
  const actions=createFixtureActions({scope:liveScope,invocation,routes:['overview','detail'],modalRegions:['operations.modal'],commands:{'fixture-tools/run':{validate:intent=>Object.keys(intent.arguments).length===0,outcome:'success'}},authorize:context=>context.invocation.fixture===true,navigate:intent=>navigation.set(intent.route),wait:(_intent,_signal)=>new Promise(resolve=>pending.push(resolve))})
- const app=createPresentationComposition({scope,registryOptions:{kinds:exampleKinds,regions:exampleRegions,runtimes:{react:version},stylesheets,onDiagnostic:event=>{const reason=event.type==='plugin-failed'?event.error.reason:event.type==='response-refused'?event.reason:event.type==='contribution-refused'?event.refusal.reason:event.diagnostic.reason;diagnostics.set([...diagnostics.getSnapshot(),reason])}},catalog,routes:[{id:'overview',label:'Overview',path:'/',region:'operations.summary'},{id:'detail',label:'Details',path:'/detail',region:'operations.page'}],storage:memoryLayoutStorage(),actions:actions.adapter,isolation,renderContext,diagnostics:event=>diagnostics.set([...diagnostics.getSnapshot(),event.reason])})
+ const app=createPresentationComposition({scope,registryOptions:{kinds:exampleKinds,regions:exampleRegions,runtimes:{react:version},stylesheets,onDiagnostic:event=>{const reason=event.type==='plugin-failed'?event.error.reason:event.type==='response-refused'?event.reason:event.type==='contribution-refused'?event.refusal.reason:event.diagnostic.reason;diagnostics.set([...diagnostics.getSnapshot(),reason])}},catalog:exampleCatalog,routes:[{id:'overview',label:'Overview',path:'/',region:'operations.summary'},{id:'detail',label:'Details',path:'/detail',region:'operations.page'}],storage:memoryLayoutStorage(),actions:actions.adapter,isolation,renderContext,diagnostics:event=>diagnostics.set([...diagnostics.getSnapshot(),event.reason])})
  actions.observe(app.runtime)
  return {...app,actions,navigation,diagnostics,isolation,contextKey,
  completeProducer(){for(const complete of pending.splice(0))complete()},

@@ -1,0 +1,21 @@
+# Deterministic playback presentation proof
+
+The optional isolated consumer at `/?playback=1` uses four authored UTC boundaries: 12:00:00.000, 12:00:01.200, 12:00:03.100 and 12:00:06.000 on 2026-10-05. Play enables an explicit **Advance fixture clock** button; Pause freezes it, seek pauses, and the terminal boundary ends playback. Reset returns to the first boundary with a fresh epoch. This is a manual fixed-clock compatibility proof, distinct from Parallax's app-owned timed playback. It adds no timer, scheduler, streaming service or reusable playback engine.
+
+The app-owned `playback-fixture.ts` supplies one immutable frame observable to both shared `renderContext` and action `invocation`. Its projection includes only authored records at or before the cutoff; the final outcome property and record exist only at the terminal boundary. Context, source, epoch and cutoff therefore cannot diverge across separate store updates. Source retirement resets position with a new source identity; host context replacement uses the existing abort/dispose/new-host lifecycle.
+
+The existing reviewed routing fixture catalogue is reused through an explicit app-fixture export; its metadata checks and policies are unchanged. The shared registry, host runtime, catalogue, action dispatcher, CSS leases and renderers remain the sole plugin integration path. Actual plugin Detail output receives source/context/frame identity through props. Fixture policy records the actual dispatcher invocation stamp for comparison with the displayed cutoff; this is local proof evidence, not an authentication or business authorization system.
+
+## State and cleanup policy
+
+This proof intentionally keys plugin presentation by frame epoch. Widget/panel local React state and local dispatch-result text remount on seek/play/pause/reset/source change, avoiding old-frame transient state. It does **not** claim widget hook state survives seek. Registry admission and the actual generation stylesheet element remain retained across cutoff changes. Context replacement disconnects the old style element and creates one fresh current lease; owner unload/unmount release plugin presentation and styles while host theme CSS remains.
+
+Fixture actions use the existing wait hook. A held producer intentionally ignores AbortSignal until explicit release. The shared dispatcher plus existing fixture action epoch checks prevent it from updating receipts after cutoff/pause/reset/source/context/end changes or owner withdrawal. A retired HeldIntent component cannot display its late dispatch result. Current-frame actions may still produce clearly labelled simulation receipts. There is no business executor, provider read/write or rollback claim.
+
+Explicit consumer unmount invalidates the current host, aborts loading, disposes action/runtime/registry ownership and releases shared stylesheet leases. A separate release button can resolve the retired held producer afterward; no current presentation or outcome is recreated. There is no background playback clock left to advance.
+
+## Validation and boundaries
+
+Two unit cases prove shared observable identity, exact projection chronology/future withholding, bounded seek, pause/end/reset/source behavior and idempotent disposal with retained callbacks unable to advance state. Ten Chromium cases prove actual plugin props and dispatcher invocation agreement; manual controls and keyboard seek; held seek/pause/reset/source/end and context retirement; owner withdrawal; unmount cleanup; retained/replaced/released stylesheet elements; narrow token/focus styles and no external/mutation requests during local control interactions. Existing widget/frame/CSS/voice/shell/admin/observation/action/lifecycle checks remain part of public CI.
+
+The proof uses existing Button components and an accessible native range control; no dedicated timeline kit or new host API was required. Package/candidate bytes and pins are unchanged. Main-origin remains the explicit reviewed offline fixture choice; this does not alter verified-frame delivery or permit an implicit isolation fallback. No provider, backend effect, live stream, persistence, Folio/Tachyon migration, upstream change, npm publication or deployment is included.
