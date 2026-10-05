@@ -4,7 +4,8 @@ import {AdminStartup} from './admin-example.js'
 import {FrameStartup} from './frame-example.js'
 import {DetailDialog} from '@hollis-labs/design-components'
 import {createRoot} from 'react-dom/client'
-import {useEffect,useState,useSyncExternalStore,useRef} from 'react'
+import {useEffect,useState,useSyncExternalStore,useRef,lazy,Suspense} from 'react'
+const DeveloperStartup=lazy(()=>import('./developer-example.js').then(module=>({default:module.DeveloperStartup})))
 import {PluginHostProvider,WidgetRenderer,PluginPanelBody,PluginDeclarativeBody,usePluginAction,usePluginHost} from '@hollis-labs/plugin-host-ui/react'
 import type {ContributionView} from '@hollis-labs/plugin-host-ui'
 import {createRoutingExample} from '../src/routing-example.js'
@@ -32,4 +33,4 @@ function Startup(){const[app,setApp]=useState<App>(),[error,setError]=useState('
  async function switchContext(){const old=current.current;if(!old)return;current.current=undefined;previous.current=old.completeProducer;const epoch=++serial.current;loading.current?.abort();old.invalidateContext();setApp(undefined);await old.dispose();if(!mounted.current||epoch!==serial.current)return;const next=factory.current(`context-${epoch+1}`);current.current=next;const controller=new AbortController();loading.current=controller;setApp(next);try{await next.load('/plugins/registry',controller.signal)}catch{if(mounted.current&&epoch===serial.current)setError('Plugin registry unavailable')}finally{if(!mounted.current||epoch!==serial.current)await next.dispose()}}
  return error?<p role="alert">{error}</p>:app?<PluginHostProvider runtime={app.runtime}><Views key={app.contextKey} app={app} switchContext={()=>{void switchContext()}} completePrevious={()=>previous.current()}/></PluginHostProvider>:<p>Loading fixture context</p>
 }
-createRoot(document.getElementById('root')!).render(new URLSearchParams(location.search).has('observations')?<ObservationStartup/>:new URLSearchParams(location.search).has('admin')?<AdminStartup/>:new URLSearchParams(location.search).has('frames')?<FrameStartup/>:<Startup/> )
+createRoot(document.getElementById('root')!).render(new URLSearchParams(location.search).has('developer')?<Suspense fallback={<p>Loading controlled review</p>}><DeveloperStartup/></Suspense>:new URLSearchParams(location.search).has('observations')?<ObservationStartup/>:new URLSearchParams(location.search).has('admin')?<AdminStartup/>:new URLSearchParams(location.search).has('frames')?<FrameStartup/>:<Startup/> )

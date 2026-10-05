@@ -1,0 +1,32 @@
+{
+  "package": "@hollis-labs/kit-code",
+  "version": "0.0.0",
+  "classification": "private unpublished reviewed candidate",
+  "sourceRepository": "https://github.com/hollis-labs/design-kit",
+  "sourceCommit": "dbcf4fa7f5bcfe83686d227b39ddf9426cea4fe5",
+  "license": "MIT AND Apache-2.0",
+  "sourceFilesSha256": {
+    "src/agent.tsx": "f7e370748415880782d0634fe66ab8e112d4e53d6521ed822e232aaf4d15be38",
+    "src/code-block.test.tsx": "63f77ca405eb119eaefbca451d869a80a5c49c57c0b030205ac098686d582150",
+    "src/code-block.tsx": "9a6105d04faf927905600e2451f3f93fa3e9657f5f17a5cdba530b932c97b7ee",
+    "src/commit.tsx": "e3f13da3de6e62871f067fa6ca62a8f3edb8abd634bc332156d0e1530b23672c",
+    "src/file-tree.tsx": "3bed2998f233e5624394490eaa2946e9c0737be0f91500b1cfc0b8a9c274bb58",
+    "src/highlight.test.ts": "d4db62ed9d4f1880bd0f5d6270709c00541eb7edefcd525934fae3643bfc862b",
+    "src/highlight.ts": "5934bd45cf12ec833881834a5192ccfe3231e77a773d66e89eaa56a9e74cab46",
+    "src/highlighter-types.ts": "3ec10b22e8dea5b584df543d4f5721c7c6e1d2e04034d64995926a7ba6730d84",
+    "src/index.ts": "07d75badb36bb049b4257025a5f45f57dbdf0b7b0a7e89bd519577fdd020ab18",
+    "src/inspection.test.tsx": "dc7584af5d47156b0256e03ba3a2e2e1d12ad57b0748df312ef68c5877ccdd01",
+    "src/metadata.test.tsx": "f1884aa94a2e896fa8e0afe31df5e43f67252d723a8f93c2b81134d8a6dfea61",
+    "src/snippet.tsx": "ec695861dbb3a760b5c2c5f14b60158eb8ecdb5d4378f292412b128efdcbec48",
+    "src/stack-trace.tsx": "75bd006c4d6322f3bd05f3ff17c507eb00f19081b7483bbad6240e4a46481a0a",
+    "src/styles/source.css": "63e07d29cdc6715fcf54bafd3e1765bd5d3d29664f99e43d31f8d454c8fd1622",
+    "src/terminal-text.test.ts": "4028806e611c9d3e5d80fc72564b832ab80630c54cec280d6d2f834ce89484f6",
+    "src/terminal-text.ts": "66bdfa600b1f307d6f1673a0962d9cc43a97d17e94ac0458600d3412b4c295a1",
+    "src/terminal.test.tsx": "48e6eac7dfab38e2fc525ec5a3be65b820ab8ebca9f2d0681a8a1e15b3c83b79",
+    "src/terminal.tsx": "b48d07bb51922d843ae3dcb77fd8a7f9b59863b306438f63d40fd63839b75edd",
+    "src/test-results.tsx": "2b7982d55173441c1790bc0a207023334ef5ffed94957ba892d0f2b1e965c9c7",
+    "src/use-clipboard.ts": "d3c9b5eb230625d2d493f3c946c13ab22303c5c55ed8b7aaeee6e10e8731b23d"
+  },
+  "archiveSha256": "4a6ae51c227993c385063451b0ce3d48805b3b5d2b816f06614f5f1656dfd845",
+  "build": "Repo-local copy only; unchanged runtime source, package metadata and CSS. Standalone ESNext/Bundler declaration emit (TS5.9.3) and Vite7.3.6 preserveModules build externalizes all declared peers/dependencies. No upstream build/write or npm publication. Shiki4.5.0 is build-time optional-peer type resolution only; app does not adopt highlight entry. Full LICENSE ships as public asset."
+}

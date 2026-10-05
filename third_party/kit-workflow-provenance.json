@@ -1,0 +1,27 @@
+{
+  "package": "@hollis-labs/kit-workflow",
+  "version": "0.0.0",
+  "classification": "private unpublished reviewed candidate",
+  "sourceRepository": "https://github.com/hollis-labs/design-kit",
+  "sourceCommit": "dbcf4fa7f5bcfe83686d227b39ddf9426cea4fe5",
+  "license": "MIT AND Apache-2.0",
+  "sourceFilesSha256": {
+    "src/__tests__/workflow.test.tsx": "74a2d3563a44821579ecb7d6a34a8e36ef31816dccfa1e26c250e6fc5ddc3b34",
+    "src/canvas.ts": "48bdea6c994161148f0814323f0aa595f10e6e094ffb694da9f3bca6cdb53d15",
+    "src/components/canvas.tsx": "92c8f66e039c0cdf9fbe9734dccd87b4592446295cf406d524b1dee9be832e75",
+    "src/components/connection.tsx": "c769b3e069907d88a71a76b695e25ec58dff9e5d0cde1d1652b9d8b57ccbf9ed",
+    "src/components/controls.tsx": "9a48459e8fc5e38dff9748d3b2fc075c8d6d3bc1ee440c03e612331112d1ec81",
+    "src/components/edge-animated.tsx": "8b5063f71f156f5c9a947af1b79a1c86c2083816c52fb0ccdc0a29b56aec5723",
+    "src/components/edge-temporary.tsx": "cfcd4f46e1547e8aaf8318c56b786c1fcb86f35b5b7e5740b5a557e6436ef01d",
+    "src/components/edge.tsx": "83a01a32827d281582876f3492c09ae556a22d0d75c74f28d9feae51c6d5f718",
+    "src/components/node.tsx": "292517a4fbcb7fcffa244dfa922dee0d2e28d408c555870660c87c7ff6f69ab3",
+    "src/components/panel.tsx": "f7ec0d55caa862a8f0b0b14ba6e370222d9c79a3b1e7fa4bf531d9852014261d",
+    "src/components/toolbar.tsx": "536217f373409c54b0c680902d1695673745e470de6f0571fd56c0ea81ed2768",
+    "src/index.ts": "2f39e74d1cd81e83da9fff1f5c46d293d6bb65d2e29423c3ffd23cc388edc0f8",
+    "src/styles/canvas.css": "1ebf0c645f8eb15f3173bdedb8685dcfcbb8938acb7a0599b1f721e5dd824cd1",
+    "src/styles/keyframes.css": "f6662d80a8a7821865648430a435d92eee2f65b1674c5a762589bd5caed471e6",
+    "src/styles/source.css": "53005ec64671b469224b31424d7dedb556e3ff543c6e0f510d907ff58d5e6159"
+  },
+  "archiveSha256": "0989b3617dbedc4d32071462b130c490a8cfa309be4c6a8308628ec665fcf8e9",
+  "build": "Repo-local copy only; unchanged runtime source, package metadata and CSS. Standalone ESNext/Bundler declaration emit (TS5.9.3) and Vite7.3.6 preserveModules build externalizes all declared peers/dependencies. No upstream build/write or npm publication. Shiki4.5.0 is build-time optional-peer type resolution only; app does not adopt highlight entry. Full LICENSE ships as public asset."
+}

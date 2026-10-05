@@ -18,3 +18,7 @@ nav[aria-label="Fixture scenarios"] > button { @apply m-1 rounded-control bg-bg-
 
 .observation-layout { @apply grid grid-cols-1 lg:grid-cols-2 items-start gap-4; }
 nav[aria-label="Observation scenarios"] > button, nav[aria-label="Observation controls"] > button { @apply m-1 rounded-control bg-bg-elevated px-3 py-2 text-fg; }
+
+/* Candidate utilities are scanned eagerly; workflow structural CSS remains lazy. */
+@source "../node_modules/@hollis-labs/kit-code/dist/**/*.js";
+@source "../node_modules/@hollis-labs/kit-workflow/dist/**/*.js";
