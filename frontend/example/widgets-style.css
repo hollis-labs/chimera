@@ -1,0 +1,17 @@
+@reference './styles.css';
+.widgets-proof { @apply space-y-3; }
+.widgets-proof nav { @apply flex flex-wrap gap-2; }
+.widgets-grid { @apply grid grid-cols-1 lg:grid-cols-3 gap-4; }
+.widgets-grid.widgets-compact { @apply lg:grid-cols-1; }
+.widgets-grid article { @apply min-w-0 rounded-control border border-border bg-bg-elevated p-3 space-y-3; }
+.widgets-proof table { @apply w-full text-left text-sm; }
+.widgets-proof th, .widgets-proof td { @apply border-b border-border p-1; }
+.widget-record { @apply block p-2 whitespace-normal; }
+.widget-record[aria-current='true'] { @apply bg-primary/15; }
+.widget-record small { @apply block text-fg-muted; }
+.widgets-proof button:focus-visible { @apply outline-2 outline-offset-2 outline-primary; }
+/* Square-cell paints fit their authored row height; columns are not receipts. */
+.spark-paint [aria-hidden='true'] { width: calc(var(--spacing) * 1 * var(--widget-count)); }
+.signal-paint [aria-hidden='true'] { width: calc(var(--spacing) * 3 * var(--widget-count)); }
+.signal-paint > div > div:first-child { @apply h-auto flex-wrap py-1; }
+.signal-paint > div > div:first-child > span:last-child { @apply flex-wrap; }
