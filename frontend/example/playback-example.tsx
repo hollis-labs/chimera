@@ -1,4 +1,5 @@
 import './playback-style.css';
+import { SettingsReviewProof } from './settings-review-example.js';
 import { WidgetsProof } from './widgets-example.js';
 import { InspectorProof } from './inspector-example.js';
 import { OverlayProof } from './overlay-example.js';
@@ -25,7 +26,7 @@ function HeldIntent({ view, epoch }: {
                 });
             }}>Prepare held playback producer</Button><output aria-label="Playback dispatch outcome">{result}</output></span>}/>;
 }
-function PlaybackViews({ app, switchContext, retire, completePrevious, retainRetiredOverlay, releaseRetiredOverlay, dashboard = false, overlays = false, inspector = false, widgets = false }: {
+function PlaybackViews({ app, switchContext, retire, completePrevious, retainRetiredOverlay, releaseRetiredOverlay, dashboard = false, overlays = false, inspector = false, widgets = false, settingsReview = false, retainSettingsProducer = () => {} }: {
     app: App;
     switchContext: () => void;
     retire: () => void;
@@ -36,12 +37,14 @@ function PlaybackViews({ app, switchContext, retire, completePrevious, retainRet
     overlays?: boolean;
     inspector?: boolean;
     widgets?: boolean;
+    settingsReview?: boolean;
+    retainSettingsProducer?: (release: () => void) => void;
 }) {
     useSyncExternalStore(app.runtime.subscribe, app.runtime.getSnapshot, app.runtime.getSnapshot);
     const frame = useSyncExternalStore(app.frame.subscribe, app.frame.getSnapshot, app.frame.getSnapshot), receipts = useSyncExternalStore(app.actions.receipts.subscribe, app.actions.receipts.getSnapshot, app.actions.receipts.getSnapshot);
     const validated = useSyncExternalStore(app.validated.subscribe, app.validated.getSnapshot, app.validated.getSnapshot);
     useEffect(() => {
-        if (!overlays && !inspector)
+        if (!overlays && !inspector && !settingsReview)
             return;
         const target = document.querySelector<HTMLElement>('main h1');
         const id = requestAnimationFrame(() => {
@@ -49,7 +52,7 @@ function PlaybackViews({ app, switchContext, retire, completePrevious, retainRet
                 target.focus();
         });
         return () => cancelAnimationFrame(id);
-    }, [app, overlays, inspector]);
+    }, [app, overlays, inspector, settingsReview]);
     const [compact, setCompact] = useState(false);
     const layout = app.layouts.get('operations.summary')!;
     useSyncExternalStore(layout.subscribe, layout.getSnapshot, layout.getSnapshot);
@@ -59,13 +62,15 @@ function PlaybackViews({ app, switchContext, retire, completePrevious, retainRet
             layout.save({ ...prefs, visibility: { ...prefs.visibility, [view.id]: prefs.visibility[view.id] === false } });
     }
     const intent = app.select('operations.toolbar').find(view => view.ref.key === 'delayed');
-    return <main className="playback-proof"><h1 tabIndex={-1}>{widgets ? 'Controlled visual widgets proof' : inspector ? 'Controlled payload inspector proof' : overlays ? 'Controlled overlay retirement proof' : dashboard ? 'Controlled dashboard composition proof' : 'Controlled deterministic playback proof'}</h1><p>Manual local clock over four authored UTC boundaries. No timer, stream or provider effects.</p><p>Playback context: {frame.contextKey}; source: {frame.sourceKey}</p><nav aria-label="Playback controls"><Button disabled={frame.playing || frame.terminal} onClick={() => app.play()}>Play fixture</Button><Button disabled={!frame.playing} onClick={() => app.pause()}>Pause fixture</Button><Button disabled={!frame.playing || frame.terminal} onClick={() => app.advance()}>Advance fixture clock</Button><Button onClick={() => app.reset()}>Reset playback</Button><Button onClick={() => app.retireSource()}>Retire playback source</Button><Button onClick={switchContext}>Switch playback context</Button><Button onClick={() => { void app.registry.unload('fake-ops'); }}>Unload playback plugin owner</Button><Button onClick={retire}>Unmount playback consumer</Button></nav><label>Authored boundary<input aria-label="Playback boundary" type="range" min="0" max="3" step="1" value={frame.index} onChange={event => app.seek(Number(event.target.value))}/></label><p role="status" aria-label="Playback clock">Frame {frame.index}/3; {new Date(frame.cutoff).toISOString()}; {frame.terminal ? 'ended' : frame.playing ? 'playing' : 'paused'}</p>{dashboard && <><nav aria-label="Dashboard composition controls"><Button aria-pressed={compact} onClick={() => setCompact(value => !value)}>Toggle compact dashboard</Button><Button onClick={() => { const prefs = layout.getSnapshot(); layout.save({ ...prefs, order: [...prefs.order].reverse() }); }}>Reverse dashboard widgets</Button><Button onClick={toggleSummary}>Toggle summary widget</Button></nav><DashboardPanels frame={frame}/></>}<div className={dashboard && compact ? 'playback-columns dashboard-compact' : 'playback-columns'}><section aria-label="Visible playback records"><h2>Records at or before cutoff</h2>{frame.records.map(record => <p key={record.at}>{new Date(record.at).toISOString()} — {record.text}</p>)}{frame.outcome && <p>Recorded outcome: {frame.outcome}</p>}</section><section aria-label="Playback plugin presentation" key={frame.epoch}>{app.select('operations.summary').filter(view => ['summary', 'stable'].includes(view.ref.key)).map(view => <WidgetRenderer key={view.id} widget={view}/>)}{app.select('operations.detail').map(view => <PluginPanelBody key={view.id} panel={view}/>)}{intent && <HeldIntent view={intent} epoch={frame.epoch}/>}</section></div>{widgets && <WidgetsProof app={app}/>} {inspector && <InspectorProof app={app} switchContext={switchContext} retire={retire}/>} {overlays && <OverlayProof retire={retire} app={app} switchContext={switchContext} retainRetired={retainRetiredOverlay} releaseRetired={releaseRetiredOverlay}/>}<nav aria-label="Producer release controls"><Button onClick={() => app.complete()}>Release playback producer</Button><Button onClick={completePrevious}>Release retired playback producer</Button></nav><p role="status" aria-label="Validated playback invocation">{validated ? `${validated.contextKey}/${validated.sourceKey}: frame ${validated.index}; ${new Date(validated.cutoff).toISOString()}` : 'No current validated action'}</p><section aria-label="Playback receipts">{receipts.map(receipt => <p key={receipt.id}>Fixture receipt: {receipt.status} {receipt.outcome}</p>)}</section></main>;
+    return <main className="playback-proof"><h1 tabIndex={-1}>{settingsReview ? 'Controlled settings review proof' : widgets ? 'Controlled visual widgets proof' : inspector ? 'Controlled payload inspector proof' : overlays ? 'Controlled overlay retirement proof' : dashboard ? 'Controlled dashboard composition proof' : 'Controlled deterministic playback proof'}</h1><p>Manual local clock over four authored UTC boundaries. No timer, stream or provider effects.</p><p>Playback context: {frame.contextKey}; source: {frame.sourceKey}</p><nav aria-label="Playback controls"><Button disabled={frame.playing || frame.terminal} onClick={() => app.play()}>Play fixture</Button><Button disabled={!frame.playing} onClick={() => app.pause()}>Pause fixture</Button><Button disabled={!frame.playing || frame.terminal} onClick={() => app.advance()}>Advance fixture clock</Button><Button onClick={() => app.reset()}>Reset playback</Button><Button onClick={() => app.retireSource()}>Retire playback source</Button><Button onClick={switchContext}>Switch playback context</Button><Button onClick={() => { void app.registry.unload('fake-ops'); }}>Unload playback plugin owner</Button><Button onClick={retire}>Unmount playback consumer</Button></nav><label>Authored boundary<input aria-label="Playback boundary" type="range" min="0" max="3" step="1" value={frame.index} onChange={event => app.seek(Number(event.target.value))}/></label><p role="status" aria-label="Playback clock">Frame {frame.index}/3; {new Date(frame.cutoff).toISOString()}; {frame.terminal ? 'ended' : frame.playing ? 'playing' : 'paused'}</p>{dashboard && <><nav aria-label="Dashboard composition controls"><Button aria-pressed={compact} onClick={() => setCompact(value => !value)}>Toggle compact dashboard</Button><Button onClick={() => { const prefs = layout.getSnapshot(); layout.save({ ...prefs, order: [...prefs.order].reverse() }); }}>Reverse dashboard widgets</Button><Button onClick={toggleSummary}>Toggle summary widget</Button></nav><DashboardPanels frame={frame}/></>}<div className={dashboard && compact ? 'playback-columns dashboard-compact' : 'playback-columns'}><section aria-label="Visible playback records"><h2>Records at or before cutoff</h2>{frame.records.map(record => <p key={record.at}>{new Date(record.at).toISOString()} — {record.text}</p>)}{frame.outcome && <p>Recorded outcome: {frame.outcome}</p>}</section><section aria-label="Playback plugin presentation" key={frame.epoch}>{app.select('operations.summary').filter(view => ['summary', 'stable'].includes(view.ref.key)).map(view => <WidgetRenderer key={view.id} widget={view}/>)}{app.select('operations.detail').map(view => <PluginPanelBody key={view.id} panel={view}/>)}{intent && <HeldIntent view={intent} epoch={frame.epoch}/>}</section></div>{settingsReview && <SettingsReviewProof app={app} retainRetired={retainSettingsProducer}/>} {widgets && <WidgetsProof app={app}/>} {inspector && <InspectorProof app={app} switchContext={switchContext} retire={retire}/>} {overlays && <OverlayProof retire={retire} app={app} switchContext={switchContext} retainRetired={retainRetiredOverlay} releaseRetired={releaseRetiredOverlay}/>}<nav aria-label="Producer release controls"><Button onClick={() => app.complete()}>Release playback producer</Button><Button onClick={completePrevious}>Release retired playback producer</Button></nav><p role="status" aria-label="Validated playback invocation">{validated ? `${validated.contextKey}/${validated.sourceKey}: frame ${validated.index}; ${new Date(validated.cutoff).toISOString()}` : 'No current validated action'}</p><section aria-label="Playback receipts">{receipts.map(receipt => <p key={receipt.id}>Fixture receipt: {receipt.status} {receipt.outcome}</p>)}</section></main>;
 }
-export function PlaybackStartup({ dashboard = false, overlays = false, inspector = false, widgets = false }: {
+export function PlaybackStartup({ dashboard = false, overlays = false, inspector = false, widgets = false, settingsReview = false, retainSettingsProducer = () => {} }: {
     dashboard?: boolean;
     overlays?: boolean;
     inspector?: boolean;
     widgets?: boolean;
+    settingsReview?: boolean;
+    retainSettingsProducer?: (release: () => void) => void;
 } = {}) {
     const retiredOverlay = useRef<() => void>(() => { }), retainRetiredOverlay = useRef((release: () => void) => { retiredOverlay.current = release; });
     const [app, setApp] = useState<App>(), [error, setError] = useState(''), [retired, setRetired] = useState(false), current = useRef<App | undefined>(undefined), previous = useRef<() => void>(() => { }), serial = useRef(0), mounted = useRef(false), loading = useRef<AbortController | undefined>(undefined), factory = useRef<(key: string) => App>(key => createPlaybackFixture(key)), close = useRef<() => Promise<void>>(async () => { });
@@ -101,14 +106,14 @@ export function PlaybackStartup({ dashboard = false, overlays = false, inspector
         return () => { void close.current(); };
     }, []);
     useEffect(() => {
-        if (!retired || (!overlays && !inspector))
+        if (!retired || (!overlays && !inspector && !settingsReview))
             return;
         const target = document.querySelector<HTMLElement>('main h1'), id = requestAnimationFrame(() => {
             if (target?.isConnected)
                 target.focus();
         });
         return () => cancelAnimationFrame(id);
-    }, [retired, overlays, inspector]);
+    }, [retired, overlays, inspector, settingsReview]);
     async function switchContext() {
         const old = current.current;
         if (!old)
@@ -139,5 +144,5 @@ export function PlaybackStartup({ dashboard = false, overlays = false, inspector
         }
     }
     async function retire() { setRetired(true); setApp(undefined); await close.current(); }
-    return retired ? <main className="playback-proof"><h1 tabIndex={-1}>Playback consumer retired</h1><p>No plugin presentation or producer outcome remains mounted.</p><Button onClick={() => previous.current()}>Release retired playback producer</Button>{overlays && <Button onClick={() => retiredOverlay.current()}>Release retired overlay producer</Button>}</main> : error ? <p role="alert">{error}</p> : app ? <PluginHostProvider runtime={app.runtime}><PlaybackViews widgets={widgets} inspector={inspector} retainRetiredOverlay={retainRetiredOverlay.current} releaseRetiredOverlay={() => retiredOverlay.current()} overlays={overlays} dashboard={dashboard} app={app} switchContext={() => { void switchContext(); }} retire={() => { void retire(); }} completePrevious={() => previous.current()}/></PluginHostProvider> : <p>Loading playback context</p>;
+    return retired ? <main className="playback-proof"><h1 tabIndex={-1}>Playback consumer retired</h1><p>No plugin presentation or producer outcome remains mounted.</p><Button onClick={() => previous.current()}>Release retired playback producer</Button>{overlays && <Button onClick={() => retiredOverlay.current()}>Release retired overlay producer</Button>}</main> : error ? <p role="alert">{error}</p> : app ? <PluginHostProvider runtime={app.runtime}><PlaybackViews settingsReview={settingsReview} retainSettingsProducer={retainSettingsProducer} widgets={widgets} inspector={inspector} retainRetiredOverlay={retainRetiredOverlay.current} releaseRetiredOverlay={() => retiredOverlay.current()} overlays={overlays} dashboard={dashboard} app={app} switchContext={() => { void switchContext(); }} retire={() => { void retire(); }} completePrevious={() => previous.current()}/></PluginHostProvider> : <p>Loading playback context</p>;
 }

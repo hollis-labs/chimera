@@ -41,3 +41,5 @@ Optional controlled overlay fixture: `/?overlays=1` exercises actual form/confir
 Optional evidence inspector: `/?inspector=1` composes actual read-only JSON/summary/metadata/search components with cutoff-bounded local records and contribution-scoped selection/modal retirement. [Supported exports, focus and lifecycle proof](docs/controlled-inspector.md).
 
 Optional controlled compact widgets: `/?widgets=1` composes six published exports over authored cutoff-bound samples and actual contribution lifetime. [Truthful counts, proportions, accessibility and retirement proof](docs/controlled-widgets.md).
+
+Optional desired-settings review: `/?settingsReview=1` compares four actual kit-settings renderers with local drafts/steps and held plan-only preview. [Validation, provenance, unset and contribution lifetime](docs/controlled-settings-review.md).

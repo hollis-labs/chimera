@@ -1,0 +1,6 @@
+@reference './styles.css';
+.settings-review-proof { @apply space-y-3; }
+.settings-review-proof nav { @apply flex flex-wrap gap-2; }
+.settings-review-renderer { @apply max-w-3xl min-w-0 space-y-4; }
+.settings-review-proof p { @apply break-words; }
+.settings-review-proof input { @apply max-w-full; }
