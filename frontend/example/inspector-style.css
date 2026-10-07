@@ -1,0 +1,11 @@
+@reference './styles.css';
+.inspector-proof { @apply space-y-3; }
+.inspector-columns { @apply grid grid-cols-1 lg:grid-cols-2 gap-4 items-start; }
+.inspector-columns > section { @apply min-w-0 space-y-3; }
+.inspector-columns article { @apply space-y-2 border border-border rounded-control p-3; }
+.inspector-columns article button { @apply max-w-full whitespace-normal text-left; }
+.inspector-modal-body { @apply p-4 space-y-3; }
+.inspector-modal-body nav { @apply flex flex-wrap gap-2; }
+
+/* Summary scalars stay bounded; full authored literal remains in the inspector. */
+.inspector-columns article .whitespace-nowrap { @apply max-w-full truncate; }

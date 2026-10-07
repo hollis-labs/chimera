@@ -37,3 +37,5 @@ Optional deterministic playback fixture: `/?playback=1` aligns actual plugin pro
 Optional dashboard composition fixture: `/?dashboard=1` adds actual released dashboard panels with cutoff counts, explicit zero/uncollected evidence and controlled plugin composition. [Retention, evidence scope and style ownership](docs/controlled-dashboard.md).
 
 Optional controlled overlay fixture: `/?overlays=1` exercises actual form/confirmation/menu components with transient drafts, guarded native submit and owner/context/source retirement. [Focus, local outcomes and lifecycle policy](docs/controlled-overlays.md).
+
+Optional evidence inspector: `/?inspector=1` composes actual read-only JSON/summary/metadata/search components with cutoff-bounded local records and contribution-scoped selection/modal retirement. [Supported exports, focus and lifecycle proof](docs/controlled-inspector.md).

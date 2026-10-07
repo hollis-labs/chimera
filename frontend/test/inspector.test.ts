@@ -1,0 +1,18 @@
+import { it, expect, vi } from 'vitest';
+import type { ContributionView } from '@hollis-labs/plugin-host-ui';
+import { createPlaybackFixture } from '../example/playback-fixture.js';
+import { createInspectorFixture, inspectorRecords } from '../example/inspector-fixture.js';
+it('authored payload projection preserves zero/null, literal diagnostics and cutoff withholding', async () => { const app = createPlaybackFixture('inspector-unit'); for (let index = 0; index < 4; index++) {
+    app.seek(index);
+    const records = inspectorRecords(app);
+    expect(records).toHaveLength(index + 1);
+    expect(records.every(record => record.payload.errors === 0 && record.payload.spend === null)).toBe(true);
+    expect(records.some(record => 'outcome' in record.payload)).toBe(index === 3);
+    if (index > 0) {
+        expect(records[1].format).toBe('malformed raw fixture');
+        expect(() => JSON.parse(records[1].raw)).toThrow();
+    }
+} await app.dispose(); });
+function fixture() { const app = createPlaybackFixture('inspector-unit'); let available = true, generation = 'g1'; const view = (): ContributionView => ({ id: 'durable-panel', ref: { hostInstance: 'unit-host', owner: 'fake-ops', generation, kind: 'panel', key: 'detail' }, representation: 'component', widget: false, label: 'Detail', region: 'operations.detail', status: 'accepted', availability: 'available', props: {} }); vi.spyOn(app, 'select').mockImplementation(() => available ? [view()] : []); vi.spyOn(app.runtime, 'isCurrent').mockImplementation(value => available && value.ref.generation === generation); const inspector = createInspectorFixture(app); return { app, inspector, setGeneration() { generation = 'g2'; }, withdraw() { available = false; }, async dispose() { inspector.dispose(); vi.restoreAllMocks(); await app.dispose(); } }; }
+it('immediate stale callback rereads actual source/generation/availability before accepting local state', async () => { const f = fixture(), id = inspectorRecords(f.app)[0].id; f.inspector.capture().select(id); f.inspector.capture().open(); const old = f.inspector.capture(); f.setGeneration(); old.search('stale'); expect(f.inspector.state.getSnapshot()).toMatchObject({ query: '', selected: undefined, open: false }); f.inspector.capture().select(id); f.inspector.capture().open(); const current = f.inspector.capture(); f.app.retireSource(); current.open(); expect(f.inspector.state.getSnapshot()).toMatchObject({ query: '', selected: undefined, open: false }); f.inspector.capture().select(id); const lost = f.inspector.capture(); f.withdraw(); lost.open(); expect(f.inspector.state.getSnapshot()).toMatchObject({ available: false, selected: undefined, open: false }); await f.dispose(); });
+it('selection/modal epochs reject pending search callbacks and disposal is idempotent', async () => { const f = fixture(), id = inspectorRecords(f.app)[0].id; const oldSearch = f.inspector.capture(); f.inspector.capture().select(id); oldSearch.search('queued'); expect(f.inspector.state.getSnapshot().query).toBe(''); const pending = f.inspector.capture(); f.inspector.capture().open(); pending.search('missing'); expect(f.inspector.state.getSnapshot()).toMatchObject({ query: '', selected: id, open: true }); f.inspector.capture().close(); f.inspector.capture().search('missing'); expect(f.inspector.state.getSnapshot()).toMatchObject({ query: 'missing', selected: undefined, open: false }); const retained = f.inspector.capture(); f.inspector.dispose(); f.inspector.dispose(); retained.select(id); retained.search('queued'); expect(f.inspector.state.getSnapshot()).toMatchObject({ query: '', selected: undefined, open: false }); await f.dispose(); });

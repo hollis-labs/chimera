@@ -33,3 +33,5 @@ Frame checkpoint registry audit on 2026-10-05 confirms React/React DOM 19.3.0, p
 Dashboard composition audit: existing released kit-dashboard0.4.0 widgets exports Panel/KpiGrid/Kpi/BarList and their exact public types suffice. Existing app-owned PlaybackStartup/renderContext/invocation/catalog/layout/CSS paths are reused. Demo-only legacy utility aliases resolve current semantic tokens; no new package, candidate, host API or upstream change.
 
 Oct7 overlay audit: npm registry still reports design-components0.4.0; its actual FormDialog/ConfirmDialog/OverflowMenu/Input/Textarea props and unchanged presentation-session tickets suffice. Native submit and busy Escape cancellation remain app-owned. Exact pins/candidate bytes/licenses unchanged; no shared API/dependency expansion.
+
+Inspector audit: existing published design-components0.4.0 JsonViewer/PayloadSummary/MetaList/SearchInput and DetailDialog suffice. JsonModal/PayloadActions always include clipboard actions with no supported omission prop, so intentionally remain unadopted under this no-effects proof. Shared pins/archive bytes/licensing unchanged; no new host API or dependency.
