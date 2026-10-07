@@ -23,7 +23,8 @@ import (
 //go:embed all:dist
 var embedded embed.FS
 
-func demoPlugins(failed bool) (*plugins.Delivery, error) {
+func demoPlugins(failed bool) (*plugins.Delivery, error) { return demoPluginGeneration(failed, "g1") }
+func demoPluginGeneration(failed bool, generation string) (*plugins.Delivery, error) {
 	bytes := []byte(`import {createElement,useState} from "react";import {Button} from "@chimera/ui";
  export function Summary(){const [count,setCount]=useState(0);return createElement(Button,{className:"p-7 bg-surface-raised text-fg",onClick:()=>setCount(count+1)},"Fixture provider: unavailable; local count "+count)}
  export function Detail(props){const [count,setCount]=useState(0);return createElement("section",null,createElement("p",null,"Owner: application; no live provider connected"),createElement("p",null,"Detail context: "+props.contextLabel),createElement(Button,{onClick:()=>setCount(count+1)},"Detail state "+count))}
@@ -31,8 +32,15 @@ func demoPlugins(failed bool) (*plugins.Delivery, error) {
  export function Modal(props){return createElement("p",null,"Local fixture modal: "+props.contextLabel)}
  export function Broken(){throw new Error("Fixture render failure")}`)
 	r := registry.NewResponse("isolated-fake", 1)
+	if generation != "g1" {
+		r.Revision = 2
+	}
 	for _, owner := range []string{"fake-ops", "fixture-tools", "stable-plugin"} {
-		r.Plugins[owner] = registry.Plugin{OwnerGeneration: "g1", BundleURL: "/plugins/" + owner + "/g1/bundle.js", BundleVersion: registry.BundleDigest(bytes), Runtime: []registry.Runtime{{Name: "react", Min: "19.3.0", Max: "19.3.0"}}}
+		ownerGeneration := "g1"
+		if owner == "fake-ops" {
+			ownerGeneration = generation
+		}
+		r.Plugins[owner] = registry.Plugin{OwnerGeneration: ownerGeneration, BundleURL: "/plugins/" + owner + "/" + ownerGeneration + "/bundle.js", BundleVersion: registry.BundleDigest(bytes), Runtime: []registry.Runtime{{Name: "react", Min: "19.3.0", Max: "19.3.0"}}}
 	}
 	failedBytes := []byte(`throw new Error("Fixture import failure");export function Missing(){return null}`)
 	if failed {
@@ -40,7 +48,7 @@ func demoPlugins(failed bool) (*plugins.Delivery, error) {
 		r.Plugins["failed-import"] = registry.Plugin{OwnerGeneration: "g1", BundleURL: "/plugins/failed-import/g1/bundle.js", BundleVersion: registry.BundleDigest(failedBytes)}
 	}
 	p := r.Plugins["fake-ops"]
-	p.StylesheetURL = "/plugins/fake-ops/g1/style.css"
+	p.StylesheetURL = "/plugins/fake-ops/" + generation + "/style.css"
 	r.Plugins["fake-ops"] = p
 	type definition struct {
 		kind, representation string
@@ -81,7 +89,11 @@ func demoPlugins(failed bool) (*plugins.Delivery, error) {
 			continue
 		}
 		meta, _ := json.Marshal(map[string]any{"label": d.label, "priority": d.priority, "manifest_order": index})
-		contribution := registry.Contribution{Status: registry.StatusAccepted, OwnerID: d.owner, OwnerGeneration: "g1", LocalKey: d.key, Kind: d.kind, SchemaVersion: 1, Metadata: meta}
+		ownerGeneration := "g1"
+		if d.owner == "fake-ops" {
+			ownerGeneration = generation
+		}
+		contribution := registry.Contribution{Status: registry.StatusAccepted, OwnerID: d.owner, OwnerGeneration: ownerGeneration, LocalKey: d.key, Kind: d.kind, SchemaVersion: 1, Metadata: meta}
 		switch {
 		case d.export != "":
 			contribution.Representation = registry.Component
@@ -180,8 +192,21 @@ func main() {
 		request.URL.Path = "/plugins/registry"
 		delivery.ServeHTTP(w, request)
 	})
+	overlayDelivery, err := demoPluginGeneration(false, "g2")
+	if err != nil {
+		log.Fatal(err)
+	}
+	routes.HandleFunc("GET /api/overlay-registry", func(w http.ResponseWriter, r *http.Request) {
+		request := r.Clone(r.Context())
+		request.URL.Path = "/plugins/registry"
+		overlayDelivery.ServeHTTP(w, request)
+	})
 	pluginHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		parts := strings.Split(r.URL.Path, "/")
+		if len(parts) == 5 && parts[2] == "fake-ops" && parts[3] == "g2" {
+			overlayDelivery.ServeHTTP(w, r)
+			return
+		}
 		if len(parts) == 5 && strings.HasPrefix(parts[2], "frame-") && frameDeliveries[parts[3]] != nil {
 			frameDeliveries[parts[3]].ServeHTTP(w, r)
 			return
