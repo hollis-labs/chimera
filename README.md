@@ -73,3 +73,5 @@ Optional inline current contribution selector: `/?contributionSwitcher=1` uses e
 Optional readonly authored event/log ledger: `/?eventLedger=1` reviews nine installed Table/ScrollArea exports with exact cutoff rows, native bounded scrolling and current contribution-fenced inspection. [Semantics, raw metadata and lifetime boundaries](docs/controlled-event-ledger.md).
 
 Optional isolated appearance review: `/?appearanceReview=1` uses four installed native controls for ephemeral scoped palette/mode/annotation/density preview tied to current contribution lifetime. [Token, media listener and no-persistence boundaries](docs/controlled-appearance-review.md).
+
+Optional evidence states: `/?evidenceStates=1` reviews six installed tooltip/loading/separator exports with nonessential repeated source facts and actual contribution-fenced native popup lifetime. [Authored counts, loading and no-effect boundaries](docs/controlled-evidence-states.md).
