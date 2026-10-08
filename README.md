@@ -61,3 +61,5 @@ Optional controlled workflow review: `/?workflowReview=1` independently reviews 
 Optional controlled conversation evidence: `/?conversationEvidence=1` reviews twelve released tool/explanation/provenance exports over a separately authored temporal snapshot with contribution-fenced readonly inspection. [Value, disclosure, provenance and lifetime boundaries](docs/controlled-conversation-evidence.md).
 
 Optional controlled usage evidence: `/?usageEvidence=1` reviews twelve released Context/Artifact exports with unknown model capacity, exact authored USD and a contribution-fenced readonly receipt preview. [Receipt, capacity, focus and lifetime boundaries](docs/controlled-usage-evidence.md).
+
+Optional current contribution workbench: `/?contributionWorkbench=1` separates actual runtime metadata/refusals from declared catalogue policy and offers current eligible widget/panel slot previews. [Readonly selection and lifetime policy](docs/controlled-contribution-workbench.md).
