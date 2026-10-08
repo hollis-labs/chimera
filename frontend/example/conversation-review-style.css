@@ -1,0 +1,10 @@
+@reference './styles.css';
+.conversation-review-proof { @apply min-w-0 space-y-3; }
+.conversation-review-proof p { @apply break-words; }
+.conversation-review-proof nav, .conversation-inspection-body nav { @apply flex flex-wrap gap-2; }
+.conversation-review-proof select { @apply max-w-full rounded-control bg-bg-elevated text-fg p-2 border border-border; }
+.conversation-review-columns { @apply grid grid-cols-1 lg:grid-cols-2 gap-4 items-start; }
+.conversation-review-columns > section { @apply min-w-0 space-y-3; }
+.conversation-transcript { @apply h-[26rem] flex flex-col min-w-0 border border-border rounded-panel; }
+.conversation-transcript-viewport { @apply overscroll-contain; }
+.conversation-inspection-body { @apply p-4 min-w-0 space-y-3; }

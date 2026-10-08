@@ -1,0 +1,16 @@
+import { it, expect } from 'vitest';
+import { build, type Rollup } from 'vite';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import type { ChatInputProps, ChatStreamProps, ConfirmationCardProps, PromptCardProps, CardOutcome } from '@hollis-labs/kit-chat';
+type Assert<T extends true> = T;
+type IsAny<T> = 0 extends (1 & T) ? true : false;
+type InputTyped = Assert<IsAny<ChatInputProps> extends false ? true : false>;
+type StreamTyped = Assert<IsAny<ChatStreamProps> extends false ? true : false>;
+type ConfirmationTyped = Assert<IsAny<ConfirmationCardProps> extends false ? true : false>;
+type PromptTyped = Assert<IsAny<PromptCardProps> extends false ? true : false>;
+// @ts-expect-error Partial is a recorded prior status, never an emitted card outcome.
+const partialOutcome: CardOutcome = { status: 'partial' };
+void partialOutcome;
+it('released root four-export module graph excludes optional markdown/streamdown and unused effects from emitted entry', async () => { const scratch = fileURLToPath(new URL('../../.scratch/conversation-core/', import.meta.url)); await mkdir(scratch, { recursive: true }); const path = `${scratch}root.ts`; await writeFile(path, `export {ChatInput,ChatStream,ConfirmationCard,PromptCard} from ${JSON.stringify(fileURLToPath(import.meta.resolve('@hollis-labs/kit-chat')))}\n`); const parsed: string[] = []; const result = await build({ configFile: false, root: fileURLToPath(new URL('..', import.meta.url)), logLevel: 'silent', plugins: [{ name: 'record-chat-core', moduleParsed(info) { parsed.push(info.id); } }], build: { write: false, minify: false, rollupOptions: { input: path, preserveEntrySignatures: 'strict', external: ['react', 'react/jsx-runtime', 'react-dom', 'lucide-react', '@hollis-labs/design-components'], output: { format: 'es' } } } }) as Rollup.RollupOutput; expect(parsed.some(path => /kit-chat\/dist\/markdown|\/streamdown\//.test(path))).toBe(false); expect(parsed.some(path => path.includes('/message-scroller/'))).toBe(true); const outputs = Array.isArray(result) ? result : [result]; const code = outputs.flatMap(output => output.output).filter(chunk => chunk.type === 'chunk').map(chunk => chunk.code).join('\n'); expect(code).not.toContain('navigator.clipboard'); expect(code).not.toContain('type: "file"'); await writeFile(`${scratch}modules.json`, JSON.stringify(parsed, null, 2)); }, 10000);
+it('released integrity and complete duallicense asset match installed chat package', async () => { const installed = await readFile(fileURLToPath(new URL('../node_modules/@hollis-labs/kit-chat/LICENSE', import.meta.url)), 'utf8'), served = await readFile(fileURLToPath(new URL('../example/public/licenses/kit-chat.LICENSE', import.meta.url)), 'utf8'); expect(served).toBe(installed); expect(served).toContain('Apache License'); expect(served).toContain('Permission is hereby granted'); const lock = JSON.parse(await readFile(fileURLToPath(new URL('../package-lock.json', import.meta.url)), 'utf8')); expect(lock.packages['node_modules/@hollis-labs/kit-chat'].integrity).toBe('sha512-eM6ePb/S9KSRyaq2DUKvC2ukwaFusGbKkTBn/GEAuLMfc/IrSeAmU7DbMte1hKQC2Aoll2bDrhrnO1k0hJgmwg=='); expect(Object.keys(lock.packages).some(path => path.includes('streamdown'))).toBe(false); });
