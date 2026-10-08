@@ -51,3 +51,5 @@ Optional conversation response review: `/?conversationReview=1` composes four re
 Optional observation retry review: `/?observationReview=1` independently reviews four pinned observation exports with authored receipts/windows, manual clock and contribution-fenced local retry inspection. [Evidence semantics, exact-sample geometry and lifetime limits](docs/controlled-observation-review.md).
 
 Optional declared-admin review: `/?adminReview=1` renders read-only admin navigation/content tied to the current admitted contribution; `/?adminShellReview=1` mounts the same authored projection in one standalone shell. [Canonical destinations, evidence states and lifetime policy](docs/controlled-admin-review.md).
+
+Optional controlled Run Explorer: `/?explorerReview=1` composes the published operations table/filter components with a bounded authored prefix, exact receipt joins and readonly contribution-fenced inspection. [Counts, scrolling, native focus and retirement policy](docs/controlled-explorer-review.md).
