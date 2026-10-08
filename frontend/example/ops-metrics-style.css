@@ -1,0 +1,21 @@
+@reference './styles.css';
+.metrics-header { @apply flex-none bg-surface text-caption; }
+.metrics-header > p,.metrics-header > details,.metrics-header > nav { @apply px-3 py-1; }
+.metrics-header nav { @apply flex flex-wrap gap-2 items-center; }
+.metrics-header > div { @apply flex-wrap gap-2; }
+.metrics-header > div > div { @apply flex-wrap min-w-0; }
+.metrics-header h1 { @apply [overflow-wrap:anywhere]; }
+.metrics-scroll { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4; }
+.metrics-scroll [data-slot=tabs-list] { @apply max-w-full overflow-auto; }
+.metrics-scroll [data-slot=tabs-content] { @apply space-y-4; }
+.metrics-scroll p,.metrics-scroll dd { @apply [overflow-wrap:anywhere]; }
+.metrics-scroll dd { @apply m-0; }
+.metrics-scroll [aria-label="Supplied status digest"] > div { @apply flex-wrap; }
+.metrics-scroll [aria-label="Supplied status digest"] > div > span { @apply whitespace-normal; }
+.metrics-raw { @apply relative; }
+.metrics-raw table { @apply w-full table-fixed border-collapse text-caption; }
+.metrics-raw th,.metrics-raw td { @apply border border-border p-2 text-left align-top [overflow-wrap:anywhere]; }
+.metrics-raw th p { @apply text-fg-muted font-normal; }
+.metric-inspector { @apply border border-border p-3 space-y-2 bg-surface; }
+.metric-inspector > button { @apply m-1; }
+@media(max-width:700px){.metrics-header { @apply text-micro; }.metrics-header nav button { @apply text-micro px-2 py-1; }.metrics-raw table,.metrics-raw tbody,.metrics-raw tr,.metrics-raw td,.metrics-raw th { @apply block; }.metrics-raw caption { @apply block text-left; }.metrics-raw thead { @apply sr-only; }.metrics-raw tr { @apply mb-3; }.metrics-raw th,.metrics-raw td { @apply border-b-0; }.metrics-raw td:last-child { @apply border-b; }}

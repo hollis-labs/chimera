@@ -65,3 +65,5 @@ Optional controlled usage evidence: `/?usageEvidence=1` reviews twelve released 
 Optional current contribution workbench: `/?contributionWorkbench=1` separates actual runtime metadata/refusals from declared catalogue policy and offers current eligible widget/panel slot previews. [Readonly selection and lifetime policy](docs/controlled-contribution-workbench.md).
 
 Optional readonly authored directory: `/?directoryReview=1` composes fifteen installed Card/Tabs/Badge/Popover exports with supplied fictional relationships and actual contribution-scoped presentation lifetime. [Snapshot, native focus and no-auth boundaries](docs/controlled-directory-review.md).
+
+Optional authored operations metrics: `/?opsMetrics=1` composes four installed dashboard exports with native tabs, exact raw metric companions and actual contribution-fenced readonly inspection. [Metric truthfulness, focus and lifecycle boundaries](docs/controlled-ops-metrics.md).
