@@ -1,0 +1,17 @@
+@reference './styles.css';
+.switcher-header { @apply flex-none p-3 space-y-2 bg-surface text-caption; }
+.switcher-header nav { @apply flex flex-wrap gap-2 items-center; }
+.switcher-scroll { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4; }
+.switcher-grid { @apply grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4 items-start; }
+.switcher-grid > section { @apply min-w-0 space-y-2; }
+.switcher-command { @apply relative h-auto; }
+.switcher-command [data-slot=command-list] { @apply max-h-72; }
+.switcher-command [data-slot=command-item] > span { @apply min-w-0 [overflow-wrap:anywhere]; }
+.switcher-command [data-slot=command-item][aria-selected=false] { @apply bg-transparent text-fg; }
+.switcher-command small { @apply block text-micro text-fg-muted; }
+.switcher-command [data-disabled=true] { @apply opacity-75; }
+.switcher-scroll p,.switcher-scroll dd { @apply [overflow-wrap:anywhere]; }
+.switcher-scroll dd { @apply m-0; }
+.switcher-preview { @apply border border-border bg-surface p-3; }
+.switcher-grid > section > button { @apply m-1; }
+@media(max-width:700px){.switcher-grid { @apply grid-cols-1; }.switcher-header { @apply text-micro p-2; }.switcher-header nav button { @apply text-micro px-2 py-1; }}
