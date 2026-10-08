@@ -59,3 +59,5 @@ Optional controlled developer evidence: `/?developerEvidence=1` reviews ten exac
 Optional controlled workflow review: `/?workflowReview=1` independently reviews seven exact canvas exports with native readonly graph navigation, separate decorative connection specimens and contribution-fenced inspection. [Authored evidence, geometry and lifecycle boundaries](docs/controlled-workflow-review.md).
 
 Optional controlled conversation evidence: `/?conversationEvidence=1` reviews twelve released tool/explanation/provenance exports over a separately authored temporal snapshot with contribution-fenced readonly inspection. [Value, disclosure, provenance and lifetime boundaries](docs/controlled-conversation-evidence.md).
+
+Optional controlled usage evidence: `/?usageEvidence=1` reviews twelve released Context/Artifact exports with unknown model capacity, exact authored USD and a contribution-fenced readonly receipt preview. [Receipt, capacity, focus and lifetime boundaries](docs/controlled-usage-evidence.md).

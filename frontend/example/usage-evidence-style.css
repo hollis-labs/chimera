@@ -1,0 +1,11 @@
+@reference './styles.css';
+.usage-evidence-header { @apply flex-none p-3 space-y-2 text-caption bg-surface; }
+.usage-evidence-header nav { @apply flex flex-wrap gap-2 items-center; }
+.usage-evidence-scroll { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4; }
+.usage-evidence-columns { @apply grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4; }
+.usage-evidence-columns > section { @apply min-w-0 space-y-3; }
+.usage-evidence-scroll p,.usage-evidence-popup p { @apply [overflow-wrap:anywhere]; }
+.usage-evidence-scroll nav { @apply flex flex-wrap gap-2; }
+.usage-evidence-popup { max-width:calc(100vw - var(--spacing)*8);max-height:calc(100dvh - var(--spacing)*8); @apply overflow-auto; }
+.usage-evidence-scroll pre { @apply whitespace-pre-wrap [overflow-wrap:anywhere] text-caption; }
+@media(max-width:700px){.usage-evidence-header { @apply text-micro p-2; }.usage-evidence-header nav button { @apply text-micro px-2 py-1; }.usage-evidence-columns { @apply grid-cols-1; }}
