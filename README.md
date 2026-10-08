@@ -71,3 +71,5 @@ Optional authored operations metrics: `/?opsMetrics=1` composes four installed d
 Optional inline current contribution selector: `/?contributionSwitcher=1` uses eight installed Command exports for native keyboard filtering and eligible declared-slot readonly previews. [Native authority, focus and lifecycle boundaries](docs/controlled-contribution-switcher.md).
 
 Optional readonly authored event/log ledger: `/?eventLedger=1` reviews nine installed Table/ScrollArea exports with exact cutoff rows, native bounded scrolling and current contribution-fenced inspection. [Semantics, raw metadata and lifetime boundaries](docs/controlled-event-ledger.md).
+
+Optional isolated appearance review: `/?appearanceReview=1` uses four installed native controls for ephemeral scoped palette/mode/annotation/density preview tied to current contribution lifetime. [Token, media listener and no-persistence boundaries](docs/controlled-appearance-review.md).

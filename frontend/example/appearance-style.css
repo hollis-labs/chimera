@@ -1,0 +1,21 @@
+@reference './styles.css';
+.appearance-header { @apply flex-none p-3 space-y-2 bg-surface text-caption; }
+.appearance-header nav { @apply flex flex-wrap gap-2 items-center; }
+.appearance-main { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4 space-y-4; }
+.appearance-main h2 { @apply text-lg; }
+.appearance-main h3 { @apply font-semibold; }
+.appearance-controls { @apply flex flex-wrap gap-4 items-center border border-border p-3 rounded-control; }
+.appearance-controls h2,.appearance-controls p { @apply w-full; }
+.appearance-controls label { @apply inline-flex items-center gap-2; }
+/* Sanctioned scoped roles, never inherited root convenience color aliases. */
+.appearance-specimen { background:var(--hl-bg);color:var(--hl-fg);border:1px solid var(--hl-border); @apply p-6 space-y-4 rounded-control; }
+.appearance-specimen[data-dense=true] { @apply p-3 space-y-2; }
+.appearance-specimen-card { background:var(--hl-bg-elevated);border:1px solid var(--hl-border); @apply p-4 space-y-2 rounded-control; }
+.appearance-specimen[data-dense=true] .appearance-specimen-card { @apply p-2; }
+.appearance-specimen a { color:var(--hl-fg);text-decoration:underline; }
+.appearance-specimen a:focus-visible { outline:2px solid var(--hl-ring);outline-offset:3px; }
+.appearance-specimen aside { color:var(--hl-fg-secondary); }
+.appearance-raw { @apply min-w-0 border border-border p-3 space-y-2; }
+.appearance-raw dd { @apply m-0 [overflow-wrap:anywhere]; }
+.appearance-raw button { @apply m-1 h-auto whitespace-normal; }
+@media(max-width:700px){.appearance-header { @apply text-micro p-2; }.appearance-header nav button { @apply text-micro px-2 py-1; }.appearance-controls { @apply gap-3; }}
