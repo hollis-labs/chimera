@@ -1,0 +1,52 @@
+// App-owned assembly; the maintained host is imported, never copied.
+package main
+
+import (
+	"context"
+	"embed"
+	"flag"
+	"fmt"
+	"github.com/hollis-labs/chimera/host"
+	"io/fs"
+	"log"
+	"net"
+	"net/http"
+	"os/signal"
+	"syscall"
+)
+
+//go:embed all:frontend/dist
+var embedded embed.FS
+
+func main() {
+	address := flag.String("addr", "127.0.0.1:18543", "isolated loopback listener")
+	base := flag.String("base", "/", "SPA base, matching frontend build")
+	flag.Parse()
+	assets, err := fs.Sub(embedded, "frontend/dist")
+	if err != nil {
+		log.Fatal(err)
+	}
+	api := http.NewServeMux()
+	api.HandleFunc("GET /api/recipe", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, `{"source":"authored-shell/v1","status":"offline","path":%q}`, r.URL.Path)
+	})
+	plugins, err := recipePlugins()
+	if err != nil {
+		log.Fatal(err)
+	}
+	app, err := host.New(host.Config{Name: "recipe-shell", BasePath: *base, Assets: assets, Routes: api, Plugins: plugins, Stop: func(context.Context) error { log.Print("recipe stop after HTTP drain"); return nil }})
+	if err != nil {
+		log.Fatal(err)
+	}
+	listener, err := net.Listen("tcp", *address)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
+	log.Printf("recipe listening http://%s%s", listener.Addr(), *base)
+	if err := app.Serve(ctx, listener); err != nil {
+		log.Fatal(err)
+	}
+}

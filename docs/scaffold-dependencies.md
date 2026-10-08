@@ -71,4 +71,6 @@ The baseline complete `frontend/src` entry also exports optional controlled admi
 
 ## Generated-consumer acceptance
 
+The concrete [consumer recipe](../recipes/consumer/README.md) now materializes both variants and validates exact pinned source/lock/license bytes, placeholder and embedded builds, root/subpath behavior and twelve native viewport scenarios. It carries only four required adapter files; no typed-action adapter is included in the counter-only plugin variant. Its generated apps are separate from Folio materialization/breadcrumb acceptance and from the existing 290 application-browser and 15 frame gates.
+
 Folio thin templates consume maintained packages/snapshots rather than defining another loader, host, schema or scheduler. Required evidence is: a clean temporary render and `.folio.yaml` inputs/layer/file digests; placeholder Go build before frontend output; exact root and declared subpath asset/navigation/API/plugin behavior without `//`; npm clean install/typecheck/lint/build and embedded Go compile; native desktop/390px shell navigation, focus and scroll; and applicable Folio preset/conformance/platform-pin drift checks. No service/provider requirement, package publication, Tachyon migration or automatic update is implied.

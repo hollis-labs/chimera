@@ -14,6 +14,8 @@ Start with the [current consumer contract matrix](docs/consumer-contracts.md) an
 
 Validation: `GOWORK=off go vet ./...` and `GOWORK=off go test -race ./...`.
 
+The [minimal consumer recipe](recipes/consumer/README.md) materializes a shell-only default or explicit reviewed plugin variant into own scratch, with exact dependency/source provenance and native root/subpath conformance. It imports the public Go host; Folio adoption remains separately sequenced.
+
 Architecture: accepted Tesseract ADR `01M441CC9QHKWFJKNS4H91DNZF`. Manual execution/public repository creation were separately authorized in the implementation session. No service deployment or upstream migration is included.
 
 The `plugins` package provides reviewed registry-v2 byte delivery and a shared protocol-2 process inventory. See [exact dependencies](docs/dependency-matrix.md) and [typed frontend integration](docs/frontend-integration.md). Browser host-ui is an explicitly unpublished licensed candidate, committed with byte provenance for reproducible installs.

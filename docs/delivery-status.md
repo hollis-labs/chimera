@@ -10,6 +10,8 @@ The maintained [consumer contract matrix](consumer-contracts.md) distinguishes p
 
 ## Historical implementation checkpoints
 
+Consumer recipe follow-up CW-20261008-0058 adds a separately measured minimal published-only shell and explicitly reviewed plugin variant: two placeholder builds, four embedded root/subpath consumers and twelve native desktop/390px/short-height scenarios. Original Go host and four adapter source files are consumed from the immutable public baseline, with exact preserved lock/source/archive/license provenance. It changes no shared host API or existing dependency pin. Root-approved complete captures, source checks and exact CI are required before manual closure; Folio0109 remains sequenced separately. See [reproduction and handoff](../recipes/consumer/README.md).
+
 The following counts and validation summaries describe their original checkpoints. They are retained as history rather than the current cumulative gate.
 
 Compatible host API first pushed in 5e6523f; protocol-2 lifecycle/registry in 56ddc2d; typed frontend/isolated consumer in e8327a9; runtime/source-scan/admin matrix in d69620d. Public checks for implementation commits passed. That checkpoint proof includes an exact spacing-token check for the Go-authored plugin fixture source.

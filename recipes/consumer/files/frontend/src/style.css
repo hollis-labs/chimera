@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "@hollis-labs/design-tokens/design-tokens.css";
+@import "@hollis-labs/design-components/source.css";
+@import "@hollis-labs/design-app-runtime/shell-reset.css";
+@source "./**/*.{ts,tsx,js}";
+.recipe-header{ @apply shrink-0 border-b border-border-subtle p-4 flex flex-wrap gap-4 items-center justify-between; }
+.recipe-header p,.recipe-footer{ @apply text-caption text-fg-muted; }
+.recipe-header nav{ @apply flex gap-4; }
+.recipe-header a,.recipe-main a{ @apply underline underline-offset-4; }
+.recipe-header a[aria-current=page]{ @apply font-semibold text-fg; }
+.recipe-skip{ @apply sr-only focus:not-sr-only; }
+.recipe-main{ @apply flex-1 min-h-0 min-w-0 overflow-auto p-6; }
+.recipe-main h1{ @apply text-lg font-semibold mb-4; }
+.recipe-main h2{ @apply text-control font-semibold; }
+.recipe-main p,.recipe-main dl{ @apply mb-4; }
+.recipe-main dl{ @apply grid gap-2; }
+.recipe-main article{ @apply border-b border-border-subtle py-4; }
+.recipe-footer{ @apply shrink-0 border-t border-border-subtle px-4 py-3; }
+a:focus-visible,[tabindex]:focus-visible{ @apply outline-2 outline-offset-2 outline-accent; }
+button{ @apply max-w-full whitespace-normal; }
