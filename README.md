@@ -55,3 +55,5 @@ Optional declared-admin review: `/?adminReview=1` renders read-only admin naviga
 Optional controlled Run Explorer: `/?explorerReview=1` composes the published operations table/filter components with a bounded authored prefix, exact receipt joins and readonly contribution-fenced inspection. [Counts, scrolling, native focus and retirement policy](docs/controlled-explorer-review.md).
 
 Optional controlled developer evidence: `/?developerEvidence=1` reviews ten exact kit-code exports over an immutable authored offline test/file/stack/commit snapshot with native navigation and contribution-fenced readonly inspection. [Progress, timestamp, source and lifecycle boundaries](docs/controlled-developer-evidence.md).
+
+Optional controlled workflow review: `/?workflowReview=1` independently reviews seven exact canvas exports with native readonly graph navigation, separate decorative connection specimens and contribution-fenced inspection. [Authored evidence, geometry and lifecycle boundaries](docs/controlled-workflow-review.md).
