@@ -53,3 +53,5 @@ Optional observation retry review: `/?observationReview=1` independently reviews
 Optional declared-admin review: `/?adminReview=1` renders read-only admin navigation/content tied to the current admitted contribution; `/?adminShellReview=1` mounts the same authored projection in one standalone shell. [Canonical destinations, evidence states and lifetime policy](docs/controlled-admin-review.md).
 
 Optional controlled Run Explorer: `/?explorerReview=1` composes the published operations table/filter components with a bounded authored prefix, exact receipt joins and readonly contribution-fenced inspection. [Counts, scrolling, native focus and retirement policy](docs/controlled-explorer-review.md).
+
+Optional controlled developer evidence: `/?developerEvidence=1` reviews ten exact kit-code exports over an immutable authored offline test/file/stack/commit snapshot with native navigation and contribution-fenced readonly inspection. [Progress, timestamp, source and lifecycle boundaries](docs/controlled-developer-evidence.md).
