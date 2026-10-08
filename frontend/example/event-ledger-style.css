@@ -1,0 +1,23 @@
+@reference './styles.css';
+.ledger-header { @apply flex-none p-3 space-y-2 bg-surface text-caption; }
+.ledger-header nav { @apply flex flex-wrap gap-2 items-center; }
+.ledger-main { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4 space-y-4; }
+.ledger-main h2,.ledger-main h3 { @apply text-lg; }
+.ledger-controls { @apply flex flex-wrap gap-2 items-center; }
+.ledger-controls label { @apply flex flex-wrap gap-2 items-center; }
+.ledger-controls input { @apply max-w-full rounded-control border border-border bg-bg-elevated text-fg px-2 py-1; }
+.ledger-area { @apply h-72 w-full border border-border rounded-control; }
+.ledger-area [data-slot=table] { @apply table-fixed; }
+.ledger-area [data-slot=table-head],.ledger-area [data-slot=table-cell] { @apply whitespace-normal [overflow-wrap:anywhere]; }
+.ledger-area [data-slot=table-head]:first-child { width:26%; }
+.ledger-area [data-slot=table-head]:nth-child(2) { width:48%; }
+.ledger-area small { @apply block text-micro text-fg-muted; }
+.ledger-area p { @apply my-1; }
+.ledger-area button { @apply whitespace-normal h-auto min-h-8; }
+.ledger-area [data-slot=table-caption] { @apply px-2 pb-3 text-fg-muted; }
+.ledger-inspector { @apply min-w-0 border border-border bg-surface p-3 space-y-2; }
+.ledger-inspector dd,.ledger-main p { @apply [overflow-wrap:anywhere]; }
+.ledger-inspector dd { @apply m-0; }
+.ledger-inspector pre { @apply max-h-40 max-w-full overflow-auto border border-border p-2 whitespace-pre-wrap [overflow-wrap:anywhere]; }
+.ledger-inspector button { @apply m-1; }
+@media(max-width:700px){.ledger-header { @apply text-micro p-2; }.ledger-header nav button { @apply text-micro px-2 py-1; }.ledger-area { @apply text-caption; }.ledger-area [data-slot=table] { @apply text-caption; }.ledger-area button { @apply text-micro px-1 py-1; }}
