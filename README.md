@@ -49,3 +49,5 @@ Optional account metadata review: `/?accountReview=1` uses five exact licensed k
 Optional conversation response review: `/?conversationReview=1` composes four released chat exports with fixed records/raw priors, bounded supplied-history scrolling and held local response-candidate inspection. [Native input, awaited responders, no-effect boundaries and contribution lifetime](docs/controlled-conversation-review.md).
 
 Optional observation retry review: `/?observationReview=1` independently reviews four pinned observation exports with authored receipts/windows, manual clock and contribution-fenced local retry inspection. [Evidence semantics, exact-sample geometry and lifetime limits](docs/controlled-observation-review.md).
+
+Optional declared-admin review: `/?adminReview=1` renders read-only admin navigation/content tied to the current admitted contribution; `/?adminShellReview=1` mounts the same authored projection in one standalone shell. [Canonical destinations, evidence states and lifetime policy](docs/controlled-admin-review.md).
