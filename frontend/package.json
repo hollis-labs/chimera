@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hollis-labs/design-app-runtime": "0.4.0",
+    "@hollis-labs/kit-account": "file:../third_party/hollis-labs-kit-account-0.0.0.tgz",
     "@hollis-labs/kit-admin": "0.1.0",
     "@hollis-labs/kit-code": "file:../third_party/hollis-labs-kit-code-0.0.0.tgz",
     "@hollis-labs/kit-dashboard": "0.4.0",

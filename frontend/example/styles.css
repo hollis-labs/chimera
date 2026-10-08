@@ -33,3 +33,5 @@ nav[aria-label="Observation scenarios"] > button, nav[aria-label="Observation co
 @source "../node_modules/@hollis-labs/kit-workflow/dist/**/*.js";
 
 @source "../node_modules/@hollis-labs/kit-voice/dist/**/*.js";
+
+@source "../node_modules/@hollis-labs/kit-account/dist/**/*.js";

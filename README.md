@@ -43,3 +43,5 @@ Optional evidence inspector: `/?inspector=1` composes actual read-only JSON/summ
 Optional controlled compact widgets: `/?widgets=1` composes six published exports over authored cutoff-bound samples and actual contribution lifetime. [Truthful counts, proportions, accessibility and retirement proof](docs/controlled-widgets.md).
 
 Optional desired-settings review: `/?settingsReview=1` compares four actual kit-settings renderers with local drafts/steps and held plan-only preview. [Validation, provenance, unset and contribution lifetime](docs/controlled-settings-review.md).
+
+Optional account metadata review: `/?accountReview=1` uses five exact licensed kit-account exports with fictional offline identity/access records and held local candidate inspection only. [Native validity, no-effect boundaries and contribution lifetime](docs/controlled-account-review.md).

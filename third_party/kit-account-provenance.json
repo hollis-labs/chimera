@@ -1,0 +1,57 @@
+{
+  "package": "@hollis-labs/kit-account",
+  "version": "0.0.0",
+  "status": "private unpublished reviewed development candidate",
+  "sourceCommit": "dbcf4fa7f5bcfe83686d227b39ddf9426cea4fe5",
+  "sourcePackage": "packages/kit-account",
+  "license": "MIT",
+  "archive": "hollis-labs-kit-account-0.0.0.tgz",
+  "sha256": "3c69fd3041bb4a2d040d8b5d46ba9d5a26028388ee35030ff6d93deabc951e7f",
+  "buildAdaptations": [
+    "repo-local standalone TypeScript declarations config against installed0.4.0 primitives",
+    "repo-local Vite7.3.6 ES library config, external package dependencies/peers",
+    "package scripts removed to avoid upstream workspace prepack; runtime source unchanged"
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/__tests__/access.test.tsx",
+      "sha256": "1866b3a798bd4defdf3418cb14a8f945211951863be928a07b7049373397c54c"
+    },
+    {
+      "path": "src/__tests__/profile.test.tsx",
+      "sha256": "c23cb79e508c30e77d0bd8c258b03a109bdd55e87fd919c0d5d4467a140d6b31"
+    },
+    {
+      "path": "src/components/account-preferences.tsx",
+      "sha256": "9721be1614266afc5ad2ab6d3623bf10dfec7a10955728ebd83cc9b16cb04cce"
+    },
+    {
+      "path": "src/components/account-profile.tsx",
+      "sha256": "92c02283514e9147a61decbb461ab00af8cf1ebdc8af4098f9be55990d951c86"
+    },
+    {
+      "path": "src/components/api-token-manager.tsx",
+      "sha256": "d9cd21b9bb6b4ee6d73a7fc1d51d8ddcfc03c1e8f81e07c0fc0567b5f5dcb64f"
+    },
+    {
+      "path": "src/components/connected-accounts.tsx",
+      "sha256": "1c6175689816c792325d0f3e57ef6e4f742397a369d88393bcd11718246307fd"
+    },
+    {
+      "path": "src/components/new-token-disclosure.tsx",
+      "sha256": "d7845814b13e6b69b750320613ca4f04373cdb803aa51bf8bb6e7176971c42d1"
+    },
+    {
+      "path": "src/components/whoami-badge.tsx",
+      "sha256": "8e24afa8c362161f094592e9144de227db4976dde79daf7d646441894906477c"
+    },
+    {
+      "path": "src/index.ts",
+      "sha256": "492214e2ad584a399c964593393b04f4e2c9f3e88f99630dea16fa3beedcc323"
+    },
+    {
+      "path": "src/styles/source.css",
+      "sha256": "53005ec64671b469224b31424d7dedb556e3ff543c6e0f510d907ff58d5e6159"
+    }
+  ]
+}

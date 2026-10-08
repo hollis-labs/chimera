@@ -1,0 +1,13 @@
+@reference './styles.css';
+.account-review-proof { @apply space-y-3 min-w-0; }
+.account-review-proof nav { @apply flex flex-wrap gap-2; }
+.account-review-proof p { @apply break-words; }
+.account-review-components { @apply grid grid-cols-1 lg:grid-cols-2 gap-4 min-w-0 items-start; }
+.account-review-components > * { @apply min-w-0; }
+.account-review-components > p { @apply lg:col-span-2; }
+.account-preference { @apply flex items-center gap-2 text-fg; }
+.account-review-proof input { @apply max-w-full; }
+
+.account-inspection-body { @apply p-4 min-w-0 space-y-3; }
+.account-inspection-body nav { @apply flex flex-wrap gap-2; }
+.account-inspection-body pre { @apply max-w-full; }
