@@ -47,3 +47,5 @@ Optional desired-settings review: `/?settingsReview=1` compares four actual kit-
 Optional account metadata review: `/?accountReview=1` uses five exact licensed kit-account exports with fictional offline identity/access records and held local candidate inspection only. [Native validity, no-effect boundaries and contribution lifetime](docs/controlled-account-review.md).
 
 Optional conversation response review: `/?conversationReview=1` composes four released chat exports with fixed records/raw priors, bounded supplied-history scrolling and held local response-candidate inspection. [Native input, awaited responders, no-effect boundaries and contribution lifetime](docs/controlled-conversation-review.md).
+
+Optional observation retry review: `/?observationReview=1` independently reviews four pinned observation exports with authored receipts/windows, manual clock and contribution-fenced local retry inspection. [Evidence semantics, exact-sample geometry and lifetime limits](docs/controlled-observation-review.md).

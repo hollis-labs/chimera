@@ -1,0 +1,8 @@
+@reference './styles.css';
+.observation-review-proof { @apply flex flex-col gap-4 min-w-0 text-fg; }
+.observation-review-proof p { @apply [overflow-wrap:anywhere]; }
+.observation-review-proof nav, .observation-inspection-body nav { @apply flex flex-wrap gap-2; }
+.observation-review-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-4 items-start; }
+.observation-review-grid > section { @apply min-w-0; }
+.observation-inspection-body { @apply min-w-0 flex flex-col gap-4 p-4 [overflow-wrap:anywhere]; }
+.observation-inspection-body pre { @apply min-w-0 whitespace-pre-wrap [overflow-wrap:anywhere]; }
