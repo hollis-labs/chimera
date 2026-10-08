@@ -1,5 +1,7 @@
 # Typed presentation integration
 
+Current contract and distribution entry points: [consumer matrix](consumer-contracts.md), [scaffold dependencies](scaffold-dependencies.md), and [verified frame delivery](frame-delivery.md). Frontend adapters are maintained private TypeScript source, not a published npm package. The pinned host-ui archive is an explicitly unpublished licensed candidate.
+
 `frontend/src/runtime.ts` connects the real published registry-v2 loader to the shared host-ui candidate. Raw JSON text is preserved at the wire boundary. The app supplies the catalog, kind/region descriptors, scope, approved exports, explicit isolation and action policy; this adapter does not define a competing loader or manifest.
 
 `frontend/src/example.ts` is a complete widget/panel recipe. The example chooses main-origin explicitly for reviewed offline demo bytes. `frontend/src/actions.ts` confines navigation to local route identifiers and refuses command/modal effects. Shared `dispatchPluginAction` remains the gateway: tests prove declared navigation, forged payload refusal and stale owner fencing. Production caller/capability/business authorization belongs to consumers.
@@ -10,14 +12,14 @@
 
 The Vite example explicitly exports approved React names through pluginHostImportmap and uses native importmaps. Plugin bundle imports are externalized; the registry imports the exact digest-verified bytes. Its real useState widget and detail panel render in Chromium without a second React runtime. Theme CSS is imported once. The example is an integration proof; production design-kit token/source scanning and application composition remain app-owned.
 
-Verified opaque frame delivery is not implemented here. Selecting sandboxed-frame without a verified controller reports isolated-controller-required; it never falls back to main-origin. Candidate /isolation APIs exist, but adding an actual verified-byte frame controller/browser matrix remains CW-20261004-0106. Same-origin demo rendering is not an isolation claim.
+Verified opaque frame delivery is implemented through `createIsolatedComposition`, the shared `/isolation` importer/controller and optional Go `host.NewFrameDocuments`. CW-20261004-0106 is complete with actual document policies, verified runtime bytes, revocation/action/browser proofs and fifteen upstream mechanism groups. Applications must supply reviewed runtime artifacts, document admission, parent origins and effective-mode policy. Selecting sandboxed-frame without that controller still reports `isolated-controller-required`; it never falls back to main-origin. See [delivery, policy and containment limits](frame-delivery.md). Same-origin demo rendering remains a separate explicit fixture policy.
 
 Run the isolated second consumer:
 
 ```sh
 npm ci --prefix frontend
 npm run build:example --prefix frontend
-GOWORK=off go run ./examples/fake-controlplane -addr 127.0.0.1:18443
+GOWORK=off go run ./examples/fake-controlplane -addr 127.0.0.1:18543
 ```
 
 Visit the printed address. API provider records, widget/panel and local counter are fake fixtures. The consumer neither contacts Tachyon nor imports its provider implementation. No managed service or source was changed.

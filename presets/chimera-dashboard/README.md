@@ -2,7 +2,9 @@
 
 This is a reviewable integration artifact. Folio's managed presets were not modified; upstream adoption remains a separate follow-up.
 
-Starting from Folio `app-dashboard`, retain app-owned `//go:embed all:frontend/dist` and `fs.Sub`. Replace local SPA assembly with:
+Use the [current consumer contracts](../../docs/consumer-contracts.md) and [shell-only versus opt-in plugin dependency strategy](../../docs/scaffold-dependencies.md). This directory is guidance, not a Folio `preset.yaml` or a completed generated-consumer adoption. CW-20261008-0058 proves the minimal recipe before Folio0109; the latter is separately sequenced after the accepted application milestones.
+
+Starting from Folio `app-dashboard` or `chat-app`, retain the app-owned embedded asset directory and `fs.Sub` (the current Folio templates use `internal/webui/dist`). Replace local SPA assembly with:
 
 ```go
 h, err := host.New(host.Config{

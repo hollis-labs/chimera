@@ -10,6 +10,8 @@ err = h.Serve(ctx, listener)
 
 Import `github.com/hollis-labs/chimera/host`. A missing frontend produces go-webui's clean-start placeholder; missing built assets return 404. The library does not open a listener or contact any provider by itself.
 
+Start with the [current consumer contract matrix](docs/consumer-contracts.md) and [scaffold dependency strategy](docs/scaffold-dependencies.md). The accepted implementation baseline is `389155313ee5b95f4125e64b61077ddf4257e3d6`: 125 frontend unit tests, 290 application browser cases and 15 upstream frame groups passed in [exact public CI](https://github.com/hollis-labs/chimera/actions/runs/37772928137). Documentation updates preserve that runtime baseline; historical counts below other checkpoint documents describe those checkpoints.
+
 Validation: `GOWORK=off go vet ./...` and `GOWORK=off go test -race ./...`.
 
 Architecture: accepted Tesseract ADR `01M441CC9QHKWFJKNS4H91DNZF`. Manual execution/public repository creation were separately authorized in the implementation session. No service deployment or upstream migration is included.

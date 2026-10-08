@@ -2,7 +2,17 @@
 
 Public repository: https://github.com/hollis-labs/chimera (MIT).
 
-Compatible host API first pushed in 5e6523f; protocol-2 lifecycle/registry in 56ddc2d; typed frontend/isolated consumer in e8327a9; runtime/source-scan/admin matrix in d69620d. Public checks for implementation commits passed. Current proof includes an exact spacing-token check for the Go-authored plugin fixture source.
+## Current accepted implementation
+
+Checkpoint 30 baseline: `389155313ee5b95f4125e64b61077ddf4257e3d6`, [exact public CI 37772928137](https://github.com/hollis-labs/chimera/actions/runs/37772928137). **125 frontend unit tests, 290 application Chromium cases and 15 upstream frame groups** passed, together with Go vet/race tests, strict typecheck, emitted-adapter/example builds and exact candidate archive checks. Runtime code and dependency pins remain at that accepted baseline during the documentation consolidation.
+
+The maintained [consumer contract matrix](consumer-contracts.md) distinguishes public Go assembly, shared frontend authority, app-owned policy and concrete proof limits. The [scaffold strategy](scaffold-dependencies.md) distinguishes published shell dependencies from the opt-in unpublished plugin frontend distribution. Complete Torque/chat examples have no demonstrated host API prerequisite. Folio0109 remains backlog pending actual generated-consumer adoption; 0110 remains done for scoped two-consumer evidence, without claiming Tachyon migration. Command0037 and Tooltip0044 are bounded upstream semantic follow-ups.
+
+## Historical implementation checkpoints
+
+The following counts and validation summaries describe their original checkpoints. They are retained as history rather than the current cumulative gate.
+
+Compatible host API first pushed in 5e6523f; protocol-2 lifecycle/registry in 56ddc2d; typed frontend/isolated consumer in e8327a9; runtime/source-scan/admin matrix in d69620d. Public checks for implementation commits passed. That checkpoint proof includes an exact spacing-token check for the Go-authored plugin fixture source.
 
 Validation:
 
