@@ -1,0 +1,15 @@
+@reference './styles.css';
+.directory-header { @apply flex-none p-3 space-y-2 bg-surface text-caption; }
+.directory-header nav { @apply flex flex-wrap gap-2 items-center; }
+.directory-scroll { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4; }
+.directory-grid { @apply grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4 items-start; }
+.directory-grid > section { @apply min-w-0; }
+.directory-grid nav { @apply flex flex-col gap-2; }
+.directory-card [data-slot=card-content],.directory-card [data-slot=card-footer] { @apply min-w-0 space-y-3; }
+.directory-card [data-slot=card-title] h2 { @apply m-0 text-base font-medium font-sans; }
+.directory-card p,.directory-card li,.directory-popup p { @apply [overflow-wrap:anywhere]; }
+.directory-card [data-slot=card-footer] { @apply flex-wrap gap-3 items-start; }
+.directory-popup { max-width:calc(100vw - var(--spacing)*8);max-height:calc(100dvh - var(--spacing)*8); @apply overflow-auto; }
+.directory-popover-trigger { @apply rounded-control bg-bg-elevated px-3 py-2 text-fg; }
+.directory-card [data-slot=tabs-list] { @apply max-w-full overflow-auto; }
+@media(max-width:700px){.directory-grid { @apply grid-cols-1; }.directory-header { @apply text-micro p-2; }.directory-header nav button { @apply text-micro px-2 py-1; }.directory-card [data-slot=card-header] { @apply flex flex-col; }}

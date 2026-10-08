@@ -63,3 +63,5 @@ Optional controlled conversation evidence: `/?conversationEvidence=1` reviews tw
 Optional controlled usage evidence: `/?usageEvidence=1` reviews twelve released Context/Artifact exports with unknown model capacity, exact authored USD and a contribution-fenced readonly receipt preview. [Receipt, capacity, focus and lifetime boundaries](docs/controlled-usage-evidence.md).
 
 Optional current contribution workbench: `/?contributionWorkbench=1` separates actual runtime metadata/refusals from declared catalogue policy and offers current eligible widget/panel slot previews. [Readonly selection and lifetime policy](docs/controlled-contribution-workbench.md).
+
+Optional readonly authored directory: `/?directoryReview=1` composes fifteen installed Card/Tabs/Badge/Popover exports with supplied fictional relationships and actual contribution-scoped presentation lifetime. [Snapshot, native focus and no-auth boundaries](docs/controlled-directory-review.md).
