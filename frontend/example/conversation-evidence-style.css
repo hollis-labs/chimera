@@ -1,0 +1,10 @@
+@reference './styles.css';
+.conversation-evidence-header { @apply flex-none p-3 space-y-2 text-caption bg-surface; }
+.conversation-evidence-header nav { @apply flex flex-wrap gap-2 items-center; }
+.conversation-evidence-scroll { @apply flex-1 min-h-0 min-w-0 overflow-auto p-4; }
+.conversation-evidence-columns { @apply grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4; }
+.conversation-evidence-columns > section { @apply min-w-0 space-y-3; }
+.conversation-evidence-scroll p,.conversation-evidence-scroll [data-provenance] { @apply [overflow-wrap:anywhere]; }
+.conversation-evidence-scroll pre { @apply max-w-full; }
+.conversation-evidence-scroll nav { @apply flex flex-wrap gap-2; }
+@media(max-width:700px){.conversation-evidence-header { @apply text-micro p-2; }.conversation-evidence-header nav button { @apply text-micro px-2 py-1; }.conversation-evidence-columns { @apply grid-cols-1; }}
