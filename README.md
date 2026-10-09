@@ -2,13 +2,15 @@
 
 Reusable Go application assembly for an embedded SPA and app-owned API/plugin handlers. Apps own product policy, discovery, credentials and effects. Chimera owns same-origin mounting and bounded HTTP-first shutdown.
 
+Install the Go module with `go get github.com/hollis-labs/chimera@v0.1.0` using Go 1.26.9 or newer. Registry DTOs and subprocess Specs come from `github.com/hollis-labs/libs/plugin-mcp/plugin-sdk` and `github.com/hollis-labs/libs/plugin-mcp/plugin-host` at v0.1.1. The embedded SPA uses `github.com/hollis-labs/libs/ui-go/webui` at v0.1.0. Use these package identities when passing values to Chimera; standalone SDK/host types are distinct.
+
 ```go
 h, err := host.New(host.Config{Name: "example", Assets: assets, Routes: api, Plugins: plugins})
 // Routes retain /api/ and Plugins retain /plugins/; Assets is rooted at index.html.
 err = h.Serve(ctx, listener)
 ```
 
-Import `github.com/hollis-labs/chimera/host`. A missing frontend produces go-webui's clean-start placeholder; missing built assets return 404. The library does not open a listener or contact any provider by itself.
+Import `github.com/hollis-labs/chimera/host`. A missing frontend produces the shared webui clean-start placeholder; missing built assets return 404. The library does not open a listener or contact any provider by itself.
 
 Start with the [current consumer contract matrix](docs/consumer-contracts.md) and [scaffold dependency strategy](docs/scaffold-dependencies.md). The accepted implementation baseline is `389155313ee5b95f4125e64b61077ddf4257e3d6`: 125 frontend unit tests, 290 application browser cases and 15 upstream frame groups passed in [exact public CI](https://github.com/hollis-labs/chimera/actions/runs/37772928137). Documentation updates preserve that runtime baseline; historical counts below other checkpoint documents describe those checkpoints.
 

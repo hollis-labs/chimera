@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hollis-labs/chimera/plugins"
-	"github.com/hollis-labs/plugin-sdk/registry"
+	"github.com/hollis-labs/libs/plugin-mcp/plugin-sdk/registry"
 )
 
 func demoFramePlugins(generation string) (*plugins.Delivery, error) {

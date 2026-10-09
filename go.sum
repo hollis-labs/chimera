@@ -1,6 +1,4 @@
-github.com/hollis-labs/go-webui v0.2.0 h1:1dyG97XZlxKxu0UL3gSkMh8u6IHvKwSS63OYbfKamFE=
-github.com/hollis-labs/go-webui v0.2.0/go.mod h1:m3/AQC9IFCMR51IqsPWu+VY4NN6NjkD/I9zedQbQ0B8=
-github.com/hollis-labs/plugin-host v0.1.3-0.20261004183918-98a79bdee1c4 h1:nnyjU+v4Z9rstwhuHeJX66OTDUpU3M5+b281ustqbmU=
-github.com/hollis-labs/plugin-host v0.1.3-0.20261004183918-98a79bdee1c4/go.mod h1:WqpZ1kpCpKTYHLpRzCZxNxnNq96XrqyHC7NPRwOOWLw=
-github.com/hollis-labs/plugin-sdk v0.6.2-0.20261004032349-e4d8eef24b04 h1:DfQhyH1h2siwlKgjtn3xfIgvziC5JKHqqD3esrXbpkY=
-github.com/hollis-labs/plugin-sdk v0.6.2-0.20261004032349-e4d8eef24b04/go.mod h1:GW8/S59GT15wKNQu62XvGArq7yLsceNDEa5TA3wFud0=
+github.com/hollis-labs/libs/plugin-mcp v0.1.1 h1:213HZTZaWL6KFkQeU3d2HZU9UMI+C0jxixHUtD4JFR0=
+github.com/hollis-labs/libs/plugin-mcp v0.1.1/go.mod h1:3x5ZVgHJewzwEpdl1RNFfxXXkq9SKVNL6LJVcpLCGnQ=
+github.com/hollis-labs/libs/ui-go v0.1.0 h1:vR7BvLAagpopIB/+QA7JjLPmOuX0QSOyJp/uisV0Mhg=
+github.com/hollis-labs/libs/ui-go v0.1.0/go.mod h1:bDgeIvyrJqQNOEnmvNH2Xw2HxLyB3y6xoqgTZxMf7y4=

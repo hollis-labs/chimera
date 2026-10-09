@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/hollis-labs/chimera/host"
-	"github.com/hollis-labs/plugin-sdk/registry"
+	"github.com/hollis-labs/libs/plugin-mcp/plugin-sdk/registry"
 	"net/http"
 	"net/http/httptest"
 	"strings"

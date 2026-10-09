@@ -1,5 +1,7 @@
 # Minimal distributable consumer recipe
 
+**Frozen compatibility recipe:** this exports the accepted `3891553` baseline and its original Go dependency graph. It does not adopt Chimera v0.1.0 or its consolidated registry types. For the current Go API and release pin, use the root README; a recipe upgrade must update its module pin, template imports and conformance expectations together.
+
 Finite consumer recipe for CW-20261008-0058, not a Folio preset or another framework. Materialization writes only a **new repo-local `.scratch` directory** and performs no hidden install/build/run/publication. Go imports the public host; the frontend uses released AppShell and app-owned native destinations. Records are authored offline evidence, not provider/business observations.
 
 Prerequisites: Node 22+, Go 1.26.6, a Chimera checkout containing immutable Git commit `389155313ee5b95f4125e64b61077ddf4257e3d6`, and network access for dependency installs. CI fetches history; export never falls back to HEAD. No upstream checkout is needed. See [consumer contracts](../../docs/consumer-contracts.md) and [dependency strategy](../../docs/scaffold-dependencies.md).

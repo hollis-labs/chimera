@@ -1,5 +1,19 @@
 # Exact dependency audit
 
+## Current Go release dependencies
+
+Chimera v0.1.0 uses Go 1.26.9 and the released monorepo modules:
+
+| Contract | Module pin | Public package |
+| --- | --- | --- |
+| Embedded SPA | `github.com/hollis-labs/libs/ui-go v0.1.0` | `libs/ui-go/webui` |
+| Plugin driver | `github.com/hollis-labs/libs/plugin-mcp v0.1.1` | `libs/plugin-mcp/plugin-host` |
+| Subprocess / registry | Same `plugin-mcp v0.1.1` module | `libs/plugin-mcp/plugin-sdk/subprocess`, `libs/plugin-mcp/plugin-sdk/registry` |
+
+There are no local replaces or standalone SDK/host/webui requirements in the current module. Browser dependencies and reviewed candidate archives remain unchanged. The consumer recipe is explicitly frozen to its historical baseline, rather than silently mixing that baseline's standalone DTOs with the new API.
+
+## Historical audits
+
 Live Go proxy/npm registry and read-only repository source checked 2026-10-04.
 
 | Contract | Consumed pin | Owner / findings |

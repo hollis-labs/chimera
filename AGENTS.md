@@ -1,6 +1,6 @@
 # Chimera
 
-Reusable Go HTTP/embedded GUI host. Application effects, discovery policy, credentials and provider integrations belong to consumers. Shared subprocess and registry contracts belong to plugin-sdk/plugin-host; use their public DTOs.
+Reusable Go HTTP/embedded GUI host. Application effects, discovery policy, credentials and provider integrations belong to consumers. Shared subprocess and registry contracts belong to libs/plugin-mcp/plugin-sdk and libs/plugin-mcp/plugin-host; use their public DTOs.
 
 Read README.md and docs/boundaries.md before changing lifecycle or frontend authority. Keep exact child environments, reviewed bundle bytes, owner generation fencing and HTTP-first bounded shutdown. No replace directives or committed go.work. Unpublished frontend candidates must be explicitly identified with provenance; never assume release parity.
 

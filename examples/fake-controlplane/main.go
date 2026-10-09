@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/hollis-labs/chimera/plugins"
-	"github.com/hollis-labs/plugin-sdk/registry"
+	"github.com/hollis-labs/libs/plugin-mcp/plugin-sdk/registry"
 	"io/fs"
 	"log"
 	"net"
