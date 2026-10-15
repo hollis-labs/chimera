@@ -6,5 +6,3 @@ require (
 	github.com/hollis-labs/libs/plugin-mcp v0.1.1
 	github.com/hollis-labs/libs/ui-go v0.1.0
 )
-
-require github.com/hollis-labs/go-streamhub v0.1.0
