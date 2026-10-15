@@ -6,3 +6,4 @@ dist/
 !examples/fake-controlplane/dist/
 examples/fake-controlplane/dist/*
 !examples/fake-controlplane/dist/.gitkeep
+.cerberus-build.lock
