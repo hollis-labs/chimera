@@ -1,6 +1,18 @@
 // Command chimera is the temporary home for plugins that do not yet have an
 // app identity: it starts the plugins named in an inventory file and exposes
 // their HTTP routes at /api/plugins/{id}/ behind one same-origin host.
+//
+// The inventory is machine-specific, so it is not kept in this repo; by
+// default it is <user config dir>/chimera/chimera.json (see -config). Each
+// plugin names an absolute binary path and its exact environment, nothing is
+// inherited:
+//
+//	{"plugins":[{"id":"activity-monitor","command":"/abs/activity-monitor","env":["HOME=/home/me"]}]}
+//
+// The host binds loopback by default and has no authentication yet, so do not
+// listen on a non-loopback address without adding it. The Cerberus service
+// definition lives in the operator's Cerberus config, not in this repo; its
+// build contract is `make build`.
 package main
 
 import (
@@ -36,12 +48,21 @@ type inventoryFile struct {
 
 func main() {
 	addr := flag.String("addr", "127.0.0.1:8099", "listen address (loopback by default: no auth yet)")
-	cfgPath := flag.String("config", "chimera.json", "plugin inventory file")
+	cfgPath := flag.String("config", defaultConfig(), "plugin inventory file (default: <user config dir>/chimera/chimera.json)")
 	flag.Parse()
 	if err := run(*addr, *cfgPath); err != nil {
 		fmt.Fprintln(os.Stderr, "chimera:", err)
 		os.Exit(1)
 	}
+}
+
+// defaultConfig keeps the machine-specific inventory out of the repo and out
+// of service definitions: the same unit works wherever the file exists.
+func defaultConfig() string {
+	if dir, err := os.UserConfigDir(); err == nil {
+		return filepath.Join(dir, "chimera", "chimera.json")
+	}
+	return "chimera.json"
 }
 
 func run(addr, cfgPath string) error {
