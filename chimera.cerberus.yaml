@@ -1,0 +1,50 @@
+# App-owned Cerberus configuration for the cmd/chimera plugin host.
+# Register this file once it is on main (`cerberus register chimera.cerberus.yaml`);
+# registration only changes discovery. `cerberus resource deploy chimera-dev --ack`
+# builds and activates it.
+#
+# Machine-specific plugin inventory is deliberately not in this repo: cmd/chimera
+# reads ~/.config/chimera/chimera.json by default (see `-config`). Each plugin
+# entry names an absolute binary path and its exact environment, e.g.
+#   {"plugins":[{"id":"activity-monitor","command":"<abs>/activity-monitor","env":["HOME=<home>"]}]}
+# The host binds loopback only and has no auth yet; do not change the address
+# to anything non-loopback without adding it.
+kind: cerberus-project/v1
+owner: chimera
+namespace: local
+
+project:
+  id: chimera
+  name: Chimera
+  description: Plugin host that is the temporary home for plugins with no app identity yet (activity monitor first).
+
+resources:
+  - id: chimera-dev
+    name: Chimera Dev
+    project: chimera
+    type: process
+    connector: local
+    tags: [dev, go, artifact, plugin-host]
+    config:
+      dir: .
+      build_strategy:
+        kind: make_standard
+        source:
+          root: .
+        rules:
+          target: build
+          output: .scratch/chimera
+      command: ["./.scratch/chimera", "-addr", "127.0.0.1:8099"]
+      mode: os_service
+      supervisor: auto
+      run_from: artifact
+      install_after_build: false
+      auto_start: false
+      auto_restart: true
+      restart_delay: 2s
+      port: 8099
+      url: http://127.0.0.1:8099/
+      health_check:
+        url: http://127.0.0.1:8099/healthz
+        timeout: 5s
+        interval: 30s

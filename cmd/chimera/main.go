@@ -36,12 +36,21 @@ type inventoryFile struct {
 
 func main() {
 	addr := flag.String("addr", "127.0.0.1:8099", "listen address (loopback by default: no auth yet)")
-	cfgPath := flag.String("config", "chimera.json", "plugin inventory file")
+	cfgPath := flag.String("config", defaultConfig(), "plugin inventory file (default: <user config dir>/chimera/chimera.json)")
 	flag.Parse()
 	if err := run(*addr, *cfgPath); err != nil {
 		fmt.Fprintln(os.Stderr, "chimera:", err)
 		os.Exit(1)
 	}
+}
+
+// defaultConfig keeps the machine-specific inventory out of the repo and out
+// of service definitions: the same unit works wherever the file exists.
+func defaultConfig() string {
+	if dir, err := os.UserConfigDir(); err == nil {
+		return filepath.Join(dir, "chimera", "chimera.json")
+	}
+	return "chimera.json"
 }
 
 func run(addr, cfgPath string) error {
