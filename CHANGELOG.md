@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Adopt grouped `libs/mcp/plugin-mcp` v0.3.0 and `libs/ui/ui-go` v0.1.0 modules for shared SDK, host and web UI contracts.
+- Preserve frontend dependencies and the explicitly frozen historical consumer recipe. No Chimera tag is published by this change.
+
 ## v0.1.0 — 2026-10-09
 
 - First tagged Go release of the embedded SPA/HTTP assembly, reviewed registry delivery and plugin process inventory.

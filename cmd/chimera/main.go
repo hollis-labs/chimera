@@ -30,9 +30,9 @@ import (
 
 	"github.com/hollis-labs/chimera/host"
 	"github.com/hollis-labs/chimera/plugins"
-	pluginhost "github.com/hollis-labs/libs/plugin-mcp/plugin-host"
-	"github.com/hollis-labs/libs/plugin-mcp/plugin-sdk/capability"
-	"github.com/hollis-labs/libs/plugin-mcp/plugin-sdk/subprocess"
+	pluginhost "github.com/hollis-labs/libs/mcp/plugin-mcp/plugin-host"
+	"github.com/hollis-labs/libs/mcp/plugin-mcp/plugin-sdk/capability"
+	"github.com/hollis-labs/libs/mcp/plugin-mcp/plugin-sdk/subprocess"
 )
 
 type inventoryFile struct {

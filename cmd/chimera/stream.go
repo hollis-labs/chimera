@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hollis-labs/libs/ui-go/streamhub"
+	"github.com/hollis-labs/libs/ui/ui-go/streamhub"
 )
 
 const (

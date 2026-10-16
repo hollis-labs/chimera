@@ -1,14 +1,14 @@
 # Exact dependency audit
 
-## Current Go release dependencies
+## Current source dependencies
 
-Chimera v0.1.0 uses Go 1.26.9 and the released monorepo modules:
+Current unreleased Chimera source uses Go 1.26.9 and these released monorepo modules. Tagged Chimera v0.1.0 retains its previous flat module identities; this adoption does not publish a new Chimera tag:
 
 | Contract | Module pin | Public package |
 | --- | --- | --- |
-| Embedded SPA | `github.com/hollis-labs/libs/ui-go v0.1.0` | `libs/ui-go/webui` |
-| Plugin driver | `github.com/hollis-labs/libs/plugin-mcp v0.1.1` | `libs/plugin-mcp/plugin-host` |
-| Subprocess / registry | Same `plugin-mcp v0.1.1` module | `libs/plugin-mcp/plugin-sdk/subprocess`, `libs/plugin-mcp/plugin-sdk/registry` |
+| Embedded SPA | `github.com/hollis-labs/libs/ui/ui-go v0.1.0` | `libs/ui/ui-go/webui` |
+| Plugin driver | `github.com/hollis-labs/libs/mcp/plugin-mcp v0.3.0` | `libs/mcp/plugin-mcp/plugin-host` |
+| Subprocess / registry | Same `plugin-mcp v0.3.0` module | `libs/mcp/plugin-mcp/plugin-sdk/subprocess`, `libs/mcp/plugin-mcp/plugin-sdk/registry` |
 
 There are no local replaces or standalone SDK/host/webui requirements in the current module. Browser dependencies and reviewed candidate archives remain unchanged. The consumer recipe is explicitly frozen to its historical baseline, rather than silently mixing that baseline's standalone DTOs with the new API.
 

@@ -2,7 +2,7 @@
 
 Reusable Go application assembly for an embedded SPA and app-owned API/plugin handlers. Apps own product policy, discovery, credentials and effects. Chimera owns same-origin mounting and bounded HTTP-first shutdown.
 
-Install the Go module with `go get github.com/hollis-labs/chimera@v0.1.0` using Go 1.26.9 or newer. Registry DTOs and subprocess Specs come from `github.com/hollis-labs/libs/plugin-mcp/plugin-sdk` and `github.com/hollis-labs/libs/plugin-mcp/plugin-host` at v0.1.1. The embedded SPA uses `github.com/hollis-labs/libs/ui-go/webui` at v0.1.0. Use these package identities when passing values to Chimera; standalone SDK/host types are distinct.
+Current unreleased source uses Go 1.26.9 or newer and the grouped module identities below. Tagged Chimera v0.1.0 retains its previous flat module identities; see the changelog for that release. Registry DTOs and subprocess Specs come from `github.com/hollis-labs/libs/mcp/plugin-mcp/plugin-sdk` and `github.com/hollis-labs/libs/mcp/plugin-mcp/plugin-host` at v0.3.0. The embedded SPA uses `github.com/hollis-labs/libs/ui/ui-go/webui` at v0.1.0. Use these package identities when passing values to Chimera; standalone SDK/host types are distinct.
 
 ```go
 h, err := host.New(host.Config{Name: "example", Assets: assets, Routes: api, Plugins: plugins})
