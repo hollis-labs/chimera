@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- A plugin entry in `chimera.json` may carry a `config` object of string settings, handed to the plugin in `plugin/init` next to the host's own `ingest_url` and `ingest_token`. Those two keys belong to the host: an entry that sets either is refused at startup. Entries without `config` behave as before. (CW-20261017-0047)
+
 ## v0.1.0 — 2026-10-09
 
 - First tagged Go release of the embedded SPA/HTTP assembly, reviewed registry delivery and plugin process inventory.

@@ -43,6 +43,9 @@ type inventoryFile struct {
 		Dir     string   `json:"dir"`
 		// Env is the plugin's exact environment: nothing is inherited.
 		Env []string `json:"env"`
+		// Config is handed to the plugin in plugin/init. ingest_url and
+		// ingest_token belong to the host and cannot be set here.
+		Config map[string]string `json:"config"`
 	} `json:"plugins"`
 }
 
@@ -95,9 +98,10 @@ func run(addr, cfgPath string) error {
 		}
 		// The plugin pushes events here instead of being polled. The token is
 		// per plugin and never logged.
-		init.Config = map[string]string{
-			"ingest_url":   "http://" + ln.Addr().String() + "/api/ingest/" + p.ID,
-			"ingest_token": b.tokens[p.ID],
+		init.Config, err = pluginConfig(p.ID, p.Config, "http://"+ln.Addr().String()+"/api/ingest/"+p.ID, b.tokens[p.ID])
+		if err != nil {
+			_ = ln.Close()
+			return err
 		}
 		specs = append(specs, pluginhost.Spec{ID: p.ID, Command: p.Command, Args: p.Args, Dir: p.Dir, Env: p.Env, Init: init})
 	}
@@ -145,4 +149,20 @@ func initParams(id, command, dir string) (subprocess.InitParams, error) {
 		Incarnation:        capability.RuntimeIdentity{HostInstance: "chimera", OwnerID: id, OwnerGeneration: 1},
 		Grants:             capability.GrantSet{},
 	}, nil
+}
+
+// pluginConfig is the plugin/init config: the inventory's own settings plus the
+// host's ingest endpoint. The ingest keys are the host's, so an inventory that
+// tries to set them is refused rather than silently overridden.
+func pluginConfig(id string, configured map[string]string, ingestURL, ingestToken string) (map[string]string, error) {
+	cfg := make(map[string]string, len(configured)+2)
+	for k, v := range configured {
+		if k == "ingest_url" || k == "ingest_token" {
+			return nil, fmt.Errorf("plugin %q: config key %q is reserved for the host", id, k)
+		}
+		cfg[k] = v
+	}
+	cfg["ingest_url"] = ingestURL
+	cfg["ingest_token"] = ingestToken
+	return cfg, nil
 }
